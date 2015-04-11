@@ -24,6 +24,7 @@ An alternate method (rfc include) is described in the references. -->
 <!ENTITY RFC2671 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2671.xml'>
 <!ENTITY RFC4033 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4033.xml'>
 <!ENTITY RFC4034 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4034.xml'>
+<!ENTITY RFC5011 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5011.xml'>
 <!ENTITY RFC5155 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5155.xml'>
 <!ENTITY RFC5358 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5358.xml'>
 <!ENTITY RFC5625 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5625.xml'>
@@ -118,38 +119,69 @@ please see http://xml.resource.org/authoring/README.html. -->
     output. If you submit your draft to the RFC Editor, the
     keywords will be used for the search engine. -->
 
+<!-- text liberally borrowed from RFC 6975 -->
+
     <abstract>
-      <t>This document defines an EDNS0 OPTION-CODE for conveying the
-	Key Tag(s) of DNSKEYs that a Validating Resolver will use to
-	validate the anticpated response.</t>  
-      <t>The Key Tag option code is optionally provided by resolvers
-	to servers for purposes of data collection only.</t>
+      <t>
+	The DNS Security Extensions (DNSSEC) were developed to provide
+	origin authentication and integrity protection for DNS data
+	by using digital signatures.  These digital signatures can be
+	verified by building a chain-of-trust starting from a trust
+	anchor and proceeding down to a particular node in the DNS.
+	This document specifies a way for validating end-system
+	resolvers to signal to a server which keys are referenced in
+	their chain-of-trust.  The extensions allow zone administrators
+	to monitor the progress of rollovers in a DNSSEC-signed zone.
+      </t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t> 
-        This is still a work in progress. Outstanding item are marked either
-        "TODO:" or "Question:".
+      <t>
+	The DNS Security Extensions (DNSSEC) <xref target="RFC4033"/>, 
+	<xref target="RFC4034"/> and <xref target="RFC4035"/> were developed 
+	to provide origin 
+	authentication and integrity protection for DNS data by using digital 
+	signatures.  DNSSEC uses key tags to efficiently match signatures to
+	the keys from which they are generated.  The key tag is a 16-bit
+	value computed from the RDATA portion of a DNSKEY RR using a formula
+	not unlike a ones-complement checksum.  RRSIG RRs contain a Key Tag
+	field whose value is equal to the key tag of the DNSKEY RR that validates
+	the signature.
       </t>
       <t>
-	Nothing in the query from a validating resolver identifies the key
-	with which the response would be validated.  This is of particular
-	concern for validators configured with a root zone trust anchor during
-	periods when the trust anchor is changing (i.e., during key or algorithm
-	rollover).
+	Likewise, Delegation Signer (DS) RRs also contain a key tag field whose
+	value is equal to the key tag of the DNSKEY RR to which it refers.
+      </t>
+XXX
+      <t>
+	This draft sets out to specify a way for validating end-system
+	resolvers to tell a server in a DNS query which digital signature
+	and/or hash algorithms they support.  This is done using the
+	new EDNS options specified below in Section 2 for use in the
+	OPT meta-RR <xref target="I-D.ietf-dnsext-rfc2671bis-edns0"/>.
+	These three new EDNS option codes are all OPTIONAL to implement
+	and use.
       </t>
       <t>
-	The introduction of this Key Tag option code allows operators of a DNSSEC-signed
-	zone to collect data on configured trust anchors and key material stored in
-	resolver caches.
+	These proposed EDNS options serve to measure the 
+	acceptance and use of new digital signing algorithms.
+	These signaling options can be used by zone administrators as a gauge
+	to measure the successful deployment of code that implements newly deployed 
+	digital signature algorithm, DS hash and NSEC3 hash algorithm used with DNSSEC.  
+	A zone administrator is able 
+	to determine when to stop signing with a superseded algorithm when
+	the server sees that a significant number of its clients signal that they 
+	are able to accept the new algorithm.  Note that this survey 
+	may be conducted over the period of years before a tipping point is seen.
       </t>
       <t>
-	The presence or absence of a Key Tag option in a query MUST NOT affect the
-	contents of a response in any way.  In other words, the Key Tag option code
-	does NOT instruct servers to include only signatures matching the given key tag
-	in its response.
+	This draft does not seek to introduce another process for including new algorithms for
+	use with DNSSEC.  It also does not address the question of which algorithms are to
+	be included in any official list of mandatory or recommended cryptographic algorithms
+	for use with DNSSEC.  Rather, this document specifies a means by which a client 
+	query can signal the set of algorithms and hashes which it implements.
       </t>
     </section>
     <section title="Terminology">
@@ -165,26 +197,59 @@ please see http://xml.resource.org/authoring/README.html. -->
     <section title="Option Format">
       <t>The edns-key-tag option is encoded as follows:</t>
         <figure><artwork align="left"><![CDATA[
-                        1                   2                   3  
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-!         OPTION-CODE           !         OPTION-LENGTH         !
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-!           KEY-TAG             !            .......            !
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+0                       8                      16
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                  OPTION-CODE                  |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                 OPTION-LENGTH                 |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                    KEY-TAG                    |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                      ...                      /
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 ]]></artwork></figure>
         <t>where:
 
           <list style="hanging">
-            <t hangText="OPTION-CODE: ">the EDNS0 option code
-              assigned to edns-key-tag, [TBD]</t>
+            <t hangText="OPTION-CODE: ">The EDNS0 option code
+              assigned to edns-key-tag, [TBD].</t>
 
-            <t hangText="OPTION-LENGTH: ">the value 2 x number of key-tag values present;</t>
+            <t hangText="OPTION-LENGTH: ">The value 2 x number of key-tag values present.</t>
 
-            <t hangText="KEY-TAG: ">One or more Key Tag values (RFC 4034, Appendix B).</t>
+            <t hangText="KEY-TAG: ">One or more 16-bit Key Tag values (RFC 4034, Appendix B).</t>
           </list>
         </t>
 
+    </section>
+
+    <section title="Sending the edns-key-tag option">
+      <t>
+	A Validating Resolver MAY include the edns-key-tag option when it
+	sends a DNSKEY query to an authoritative name server.	The Key
+	Tag value(s) included in the EDNS0 OPT RR correspond to the DS
+	RR(s), or configured trust anchor, provided by the parent zone
+	of the current query.
+      </t>
+      <t>
+	For example, if the Validating Resolver does not have a cached DNSKEY RR
+	for the root zone, it will send a DNSKEY query to a root zone name server.
+	The resolver may include the Key Tag of the root zone trust anchor in its
+	query, using the edns-key-tag option.
+      </t>
+      </t>
+	A Validating Resolver MAY include the edns-key-tag option in DNSKEY queries
+	to any zone, not just the root zone.  See the complete example in Appendix...
+      <t>
+    </section>
+
+    <section title="Receiving the edns-key-tag option">
+      <t>
+	An authoritative name server may 
+      </t>
+      <t>
+      </t>
+      </t>
+      <t>
     </section>
 
     <section title="IANA Considerations">
@@ -223,12 +288,17 @@ please see http://xml.resource.org/authoring/README.html. -->
 
   </middle>
   <back>
+
     <references title="Normative References">
     &RFC2119;
     &RFC1034;
     &RFC1035;
     &RFC4034;
     &RFC6891;
+    </references>
+
+    <references title="Informative References">
+    &RFC5011;
     </references>
 
   </back>
