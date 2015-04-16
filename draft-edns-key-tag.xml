@@ -1,42 +1,42 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!-- was: <?xml version="1.0" encoding="US-ASCII"?> -->
 <!-- This template is for creating an Internet Draft using xml2rfc,
-which is available here: http://xml.resource.org. -->
+which is available here: http://xml2rfc.ietf.org. -->
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!-- One method to get references from the online citation libraries.
 There has to be one entity for each item to be referenced. 
 An alternate method (rfc include) is described in the references. -->
-<!ENTITY RFC5966 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5966.xml">
-<!ENTITY I-D.ietf-tcpm-fastopen SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tcpm-fastopen">
-<!ENTITY I-D.draft-ietf-dnsop-edns-tcp-keepalive SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-dnsop-edns-tcp-keepalive-00.xml">
-<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
-<!ENTITY RFC3552 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3552.xml">
-<!ENTITY RFC5625 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5625.xml">
-<!ENTITY RFC6824 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6824.xml">
-<!ENTITY RFC0768 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.0768.xml'>
-<!ENTITY RFC0793 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.0793.xml'>
-<!ENTITY RFC1034 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1034.xml'>
-<!ENTITY RFC1035 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1035.xml'>
-<!ENTITY RFC1123 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.1123.xml'>
-<!ENTITY RFC2119 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
-<!ENTITY RFC2616 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml'>
-<!ENTITY RFC2671 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2671.xml'>
-<!ENTITY RFC4033 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4033.xml'>
-<!ENTITY RFC4034 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.4034.xml'>
-<!ENTITY RFC5011 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5011.xml'>
-<!ENTITY RFC5155 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5155.xml'>
-<!ENTITY RFC5358 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5358.xml'>
-<!ENTITY RFC5625 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5625.xml'>
-<!ENTITY RFC7323 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7323.xml'>
-<!ENTITY RFC7230 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.7230.xml'>
-<!ENTITY RFC2920 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2920.xml'>
-<!ENTITY RFC6891 PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.6891.xml'>
+<!ENTITY RFC5966 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5966.xml">
+<!ENTITY I-D.ietf-tcpm-fastopen SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tcpm-fastopen">
+<!ENTITY I-D.draft-ietf-dnsop-edns-tcp-keepalive SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-dnsop-edns-tcp-keepalive-00.xml">
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5625 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5625.xml">
+<!ENTITY RFC6824 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6824.xml">
+<!ENTITY RFC0768 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0768.xml'>
+<!ENTITY RFC0793 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml'>
+<!ENTITY RFC1034 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1034.xml'>
+<!ENTITY RFC1035 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml'>
+<!ENTITY RFC1123 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1123.xml'>
+<!ENTITY RFC2119 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml'>
+<!ENTITY RFC2616 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml'>
+<!ENTITY RFC2671 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2671.xml'>
+<!ENTITY RFC4033 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4033.xml'>
+<!ENTITY RFC4034 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4034.xml'>
+<!ENTITY RFC5011 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5011.xml'>
+<!ENTITY RFC5155 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5155.xml'>
+<!ENTITY RFC5358 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5358.xml'>
+<!ENTITY RFC5625 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5625.xml'>
+<!ENTITY RFC7323 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7323.xml'>
+<!ENTITY RFC7230 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml'>
+<!ENTITY RFC2920 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2920.xml'>
+<!ENTITY RFC6891 PUBLIC '' 'http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6891.xml'>
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
 <!-- For a complete list and description of processing instructions (PIs), 
-please see http://xml.resource.org/authoring/README.html. -->
+please see http://xml2rfc.ietf.org/authoring/README.html. -->
 <!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
 (Here they are set differently than their defaults in xml2rfc v1.32) -->
 <?rfc strict="yes" ?>
@@ -58,7 +58,7 @@ please see http://xml.resource.org/authoring/README.html. -->
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-dickinson-5966-bis" ipr="trust200902">
+<rfc category="std" docName="draft-edns-key-tag" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
   ipr values: full3667, noModification3667, noDerivatives3667
   you can add the attributes updates="NNNN" and obsoletes="NNNN" 
@@ -154,34 +154,28 @@ please see http://xml.resource.org/authoring/README.html. -->
 	Likewise, Delegation Signer (DS) RRs also contain a key tag field whose
 	value is equal to the key tag of the DNSKEY RR to which it refers.
       </t>
-XXX
       <t>
 	This draft sets out to specify a way for validating end-system
-	resolvers to tell a server in a DNS query which digital signature
-	and/or hash algorithms they support.  This is done using the
-	new EDNS options specified below in Section 2 for use in the
+	resolvers to tell a server in a DNS query which DNSSEC key(s) they
+	would use to validate the expected response.  This is done using the
+	new EDNS option specified below in <xref target="option-format"/> for use in the
 	OPT meta-RR <xref target="I-D.ietf-dnsext-rfc2671bis-edns0"/>.
-	These three new EDNS option codes are all OPTIONAL to implement
-	and use.
+	This new EDNS option code is OPTIONAL to implement and use.
       </t>
       <t>
-	These proposed EDNS options serve to measure the 
-	acceptance and use of new digital signing algorithms.
-	These signaling options can be used by zone administrators as a gauge
-	to measure the successful deployment of code that implements newly deployed 
-	digital signature algorithm, DS hash and NSEC3 hash algorithm used with DNSSEC.  
-	A zone administrator is able 
-	to determine when to stop signing with a superseded algorithm when
-	the server sees that a significant number of its clients signal that they 
-	are able to accept the new algorithm.  Note that this survey 
-	may be conducted over the period of years before a tipping point is seen.
+	This proposed EDNS option serves to measure the 
+	acceptance and use of new trust anchors and zone signing keys (ZSKs).
+	This signaling option can be used by zone administrators as a gauge
+	to measure the successful deployment of new keys.  This is of particular
+	interest for the DNS root zone in the event of key and/or algorithm rollovers which
+	relies on <xref target="RFC5011"/> to automatically update a validating end-system's
+	trust anchor.
       </t>
       <t>
-	This draft does not seek to introduce another process for including new algorithms for
-	use with DNSSEC.  It also does not address the question of which algorithms are to
-	be included in any official list of mandatory or recommended cryptographic algorithms
-	for use with DNSSEC.  Rather, this document specifies a means by which a client 
-	query can signal the set of algorithms and hashes which it implements.
+	This draft does not seek to introduce another process for rolling keys or updating
+	trust anchors.  
+	Rather, this document specifies a means by which a client 
+	query can signal the set of keys that a client uses for DNSSEC validation.
       </t>
     </section>
     <section title="Terminology">
@@ -194,7 +188,7 @@ XXX
     </section>
 
 
-    <section title="Option Format">
+    <section title="Option Format" anchor="option-format">
       <t>The edns-key-tag option is encoded as follows:</t>
         <figure><artwork align="left"><![CDATA[
 0                       8                      16
@@ -216,41 +210,104 @@ XXX
 
             <t hangText="OPTION-LENGTH: ">The value 2 x number of key-tag values present.</t>
 
-            <t hangText="KEY-TAG: ">One or more 16-bit Key Tag values (RFC 4034, Appendix B).</t>
+            <t hangText="KEY-TAG: ">One or more 16-bit Key Tag values (<xref target="rfc4034"/>, Appendix B).</t>
           </list>
         </t>
 
     </section>
 
-    <section title="Sending the edns-key-tag option">
+    <section title="Client Considerations">
       <t>
-	A Validating Resolver MAY include the edns-key-tag option when it
-	sends a DNSKEY query to an authoritative name server.	The Key
-	Tag value(s) included in the EDNS0 OPT RR correspond to the DS
-	RR(s), or configured trust anchor, provided by the parent zone
-	of the current query.
+	A validating end-system resolver sets the edns-key-tag
+	option in the OPT meta-RR when sending a
+	query.  The validating end-system resolver MUST also set the DNSSEC
+	OK bit <xref target="rfc4034"/> to indicate that it wishes to receive DNSSEC RRs in
+	the response.
       </t>
       <t>
-	For example, if the Validating Resolver does not have a cached DNSKEY RR
-	for the root zone, it will send a DNSKEY query to a root zone name server.
-	The resolver may include the Key Tag of the root zone trust anchor in its
-	query, using the edns-key-tag option.
+	[The KEY-TAG value(s) included in the edns-key-tag option represent the
+	Key Tag of the DNSKEY that will be used to validate the expected response.]
+	When the client sends a DNSKEY query, the edns-key-tag opton represents
+	the key tag(s) of the KSK(s) of the zone for which the server is authoritative.
+	A validating end-system resolver learns the key tag(s) of the KSK(s) from the zone's
+	DS record(s) (found in the parent), or from a configured trust anchor.
       </t>
+	For non-DNSKEY queries, the edns-key-tag option represents the key tags of all
+	DNSSEC keys in the zone's DNSKEY RRset.
       </t>
-	A Validating Resolver MAY include the edns-key-tag option in DNSKEY queries
-	to any zone, not just the root zone.  See the complete example in Appendix...
       <t>
+	FOR DISCUSSION: In all likelihood, only the key tags of the KSKs are of interest.
+	This document could specify that the edns-key-tag option be sent only with DNSKEY
+	queries.
+      </t>
+      <t>
+	Since the edns-key-tag option is only set in the query, if
+	a client sees these options in the response, no action needs to be
+	taken and the client MUST ignore the option values.
+      </t>
+      <section title="Stub Resolvers>
+        <t>
+	  Typically, stub resolvers rely on an upstream recursive server (or
+	  cache) to provide a response.  So optimal setting of the edns-key-tag
+	  option depends on whether the stub resolver elects to
+	  perform its own validation.
+	</t>
+	<section title="Validating Stub Resolvers">
+	  <t>
+	    A validating stub resolver sets the DNSSEC OK (DO) bit <xref target="rfc4034"/> to
+	    indicate that it wishes to receive additional DNSSEC RRs (i.e., RRSIG
+	    RRs) in the response.  Such validating resolvers SHOULD include the
+	    edns-key-tag option in the OPT RR when sending a
+	    query.
+	  </t>
+	</section>
+	<section title="Non-validating Stub Resolvers">
+	  <t>
+	    The edns-key-tag option MUST NOT be included by
+	    non-validating stub resolvers.
+	  </t>
+	</section>
+      </section>
+
+      <section title="Recursive Resolvers">
+
+      	<section title="Validating Recursive Resolvers">
+	  <t>
+	    A validating recursive resolver sets the edns-key-tag
+	    option when performing recursion based on relevant keys it knows
+	    and any edns-key-tag values in the stub client query.
+	    When the recursive server receives a query with the
+	    option set, the recursive server MUST set the edns-key-tag list for any
+	    outgoing iterative queries for that resolution chain to a union of
+	    the stub client's key tags and the validating recursive resolver's key tags.
+	    For example, if the recursive resolver's key tag list is (19036, 12345)
+	    and the stub's algorithm list is (19036, 34567), the
+	    final edns-key-tag list would be (19036, 12345, 34567).
+	  </t>
+	  <t>
+	    If the client included the DO and Checking Disabled (CD) bits, but
+	    did not include the edns-key-tag option in the query, the
+	    validating recursive resolver MAY include the option with its own
+	    key tag values in full.
+	  <t>
+	  </t>
+	    Validating recursive resolvers MUST NOT set the edns-key-tag
+	    option in the final response to the stub client.
+	  </t>
+
+	</section>
+
+	<section title="Non-validating Recursive Resolvers">
+	  <t>
+	    Recursive resolvers that do not do validation MUST copy the edns-key-tag
+	    option seen in received queries as they represent the
+	    wishes of the validating downstream resolver that issued the original
+	    query.
+	  </t>
+
+	</section>
     </section>
 
-    <section title="Receiving the edns-key-tag option">
-      <t>
-	An authoritative name server may 
-      </t>
-      <t>
-      </t>
-      </t>
-      <t>
-    </section>
 
     <section title="IANA Considerations">
       <t>The IANA is directed to assign an EDNS0 option code for
