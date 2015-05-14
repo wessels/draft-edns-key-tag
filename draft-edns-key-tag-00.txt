@@ -1,0 +1,336 @@
+
+
+
+
+Internet Engineering Task Force                               D. Wessels
+Internet-Draft                                             Verisign Labs
+Intended status: Standards Track                          April 16, 2015
+Expires: October 18, 2015
+
+
+                        The EDNS Key Tag Option
+                           draft-edns-key-tag
+
+Abstract
+
+   The DNS Security Extensions (DNSSEC) were developed to provide origin
+   authentication and integrity protection for DNS data by using digital
+   signatures.  These digital signatures can be verified by building a
+   chain-of-trust starting from a trust anchor and proceeding down to a
+   particular node in the DNS.  This document specifies a way for
+   validating end-system resolvers to signal to a server which keys are
+   referenced in their chain-of-trust.  The extensions allow zone
+   administrators to monitor the progress of rollovers in a DNSSEC-
+   signed zone.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on October 18, 2015.
+
+Copyright Notice
+
+   Copyright (c) 2015 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+
+
+
+Wessels                 Expires October 18, 2015                [Page 1]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Option Format . . . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Client Considerations . . . . . . . . . . . . . . . . . . . .   3
+     4.1.  Stub Resolvers  . . . . . . . . . . . . . . . . . . . . .   4
+       4.1.1.  Validating Stub Resolvers . . . . . . . . . . . . . .   4
+       4.1.2.  Non-validating Stub Resolvers . . . . . . . . . . . .   4
+     4.2.  Recursive Resolvers . . . . . . . . . . . . . . . . . . .   4
+       4.2.1.  Validating Recursive Resolvers  . . . . . . . . . . .   4
+       4.2.2.  Non-validating Recursive Resolvers  . . . . . . . . .   5
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   5
+   8.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   5
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+
+1.  Introduction
+
+   The DNS Security Extensions (DNSSEC) [RFC4033], [RFC4034] and
+   [RFC4035] were developed to provide origin authentication and
+   integrity protection for DNS data by using digital signatures.
+   DNSSEC uses key tags to efficiently match signatures to the keys from
+   which they are generated.  The key tag is a 16-bit value computed
+   from the RDATA portion of a DNSKEY RR using a formula not unlike a
+   ones-complement checksum.  RRSIG RRs contain a Key Tag field whose
+   value is equal to the key tag of the DNSKEY RR that validates the
+   signature.
+
+   Likewise, Delegation Signer (DS) RRs also contain a key tag field
+   whose value is equal to the key tag of the DNSKEY RR to which it
+   refers.
+
+   This draft sets out to specify a way for validating end-system
+   resolvers to tell a server in a DNS query which DNSSEC key(s) they
+   would use to validate the expected response.  This is done using the
+   new EDNS option specified below in Section 3 for use in the OPT meta-
+   RR [RFC6891].  This new EDNS option code is OPTIONAL to implement and
+   use.
+
+
+
+Wessels                 Expires October 18, 2015                [Page 2]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   This proposed EDNS option serves to measure the acceptance and use of
+   new trust anchors and zone signing keys (ZSKs).  This signaling
+   option can be used by zone administrators as a gauge to measure the
+   successful deployment of new keys.  This is of particular interest
+   for the DNS root zone in the event of key and/or algorithm rollovers
+   which relies on [RFC5011] to automatically update a validating end-
+   system's trust anchor.
+
+   This draft does not seek to introduce another process for rolling
+   keys or updating trust anchors.  Rather, this document specifies a
+   means by which a client query can signal the set of keys that a
+   client uses for DNSSEC validation.
+
+2.  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in [RFC2119].
+
+3.  Option Format
+
+   The edns-key-tag option is encoded as follows:
+
+   0                       8                      16
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+   |                  OPTION-CODE                  |
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+   |                 OPTION-LENGTH                 |
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+   |                    KEY-TAG                    |
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+   |                      ...                      /
+   +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+
+   where:
+
+   OPTION-CODE:   The EDNS0 option code assigned to edns-key-tag, [TBD].
+
+   OPTION-LENGTH:   The value 2 x number of key-tag values present.
+
+   KEY-TAG:   One or more 16-bit Key Tag values ([RFC4034], Appendix B).
+
+4.  Client Considerations
+
+   A validating end-system resolver sets the edns-key-tag option in the
+   OPT meta-RR when sending a query.  The validating end-system resolver
+   MUST also set the DNSSEC OK bit [RFC4034] to indicate that it wishes
+   to receive DNSSEC RRs in the response.
+
+
+
+Wessels                 Expires October 18, 2015                [Page 3]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   [The KEY-TAG value(s) included in the edns-key-tag option represent
+   the Key Tag of the DNSKEY that will be used to validate the expected
+   response.]  When the client sends a DNSKEY query, the edns-key-tag
+   opton represents the key tag(s) of the KSK(s) of the zone for which
+   the server is authoritative.  A validating end-system resolver learns
+   the key tag(s) of the KSK(s) from the zone's DS record(s) (found in
+   the parent), or from a configured trust anchor.
+
+   For non-DNSKEY queries, the edns-key-tag option represents the key
+   tags of all DNSSEC keys in the zone's DNSKEY RRset.
+
+   FOR DISCUSSION: In all likelihood, only the key tags of the KSKs are
+   of interest.  This document could specify that the edns-key-tag
+   option be sent only with DNSKEY queries.
+
+   Since the edns-key-tag option is only set in the query, if a client
+   sees these options in the response, no action needs to be taken and
+   the client MUST ignore the option values.
+
+4.1.  Stub Resolvers
+
+   Typically, stub resolvers rely on an upstream recursive server (or
+   cache) to provide a response.  So optimal setting of the edns-key-tag
+   option depends on whether the stub resolver elects to perform its own
+   validation.
+
+4.1.1.  Validating Stub Resolvers
+
+   A validating stub resolver sets the DNSSEC OK (DO) bit [RFC4034] to
+   indicate that it wishes to receive additional DNSSEC RRs (i.e., RRSIG
+   RRs) in the response.  Such validating resolvers SHOULD include the
+   edns-key-tag option in the OPT RR when sending a query.
+
+4.1.2.  Non-validating Stub Resolvers
+
+   The edns-key-tag option MUST NOT be included by non-validating stub
+   resolvers.
+
+4.2.  Recursive Resolvers
+
+4.2.1.  Validating Recursive Resolvers
+
+   A validating recursive resolver sets the edns-key-tag option when
+   performing recursion based on relevant keys it knows and any edns-
+   key-tag values in the stub client query.  When the recursive server
+   receives a query with the option set, the recursive server MUST set
+   the edns-key-tag list for any outgoing iterative queries for that
+   resolution chain to a union of the stub client's key tags and the
+
+
+
+Wessels                 Expires October 18, 2015                [Page 4]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   validating recursive resolver's key tags.  For example, if the
+   recursive resolver's key tag list is (19036, 12345) and the stub's
+   algorithm list is (19036, 34567), the final edns-key-tag list would
+   be (19036, 12345, 34567).
+
+   If the client included the DO and Checking Disabled (CD) bits, but
+   did not include the edns-key-tag option in the query, the validating
+   recursive resolver MAY include the option with its own key tag values
+   in full.
+
+   Validating recursive resolvers MUST NOT set the edns-key-tag option
+   in the final response to the stub client.
+
+4.2.2.  Non-validating Recursive Resolvers
+
+   Recursive resolvers that do not do validation MUST copy the edns-key-
+   tag option seen in received queries as they represent the wishes of
+   the validating downstream resolver that issued the original query.
+
+5.  IANA Considerations
+
+   The IANA is directed to assign an EDNS0 option code for the edns-key-
+   tag option from the DNS EDNS0 Option Codes (OPT) registry as follows:
+
+           +-------+--------------+----------+-----------------+
+           | Value | Name         | Status   | Reference       |
+           +-------+--------------+----------+-----------------+
+           | [TBA] | edns-key-tag | Optional | [This document] |
+           +-------+--------------+----------+-----------------+
+
+6.  Security Considerations
+
+   TBD
+
+7.  Privacy Considerations
+
+   TBD
+
+8.  Acknowledgements
+
+   Thanks to ...
+
+9.  References
+
+9.1.  Normative References
+
+   [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
+              STD 13, RFC 1034, November 1987.
+
+
+
+Wessels                 Expires October 18, 2015                [Page 5]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              specification", STD 13, RFC 1035, November 1987.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "DNS Security Introduction and Requirements", RFC
+              4033, March 2005.
+
+   [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "Resource Records for the DNS Security Extensions",
+              RFC 4034, March 2005.
+
+   [RFC4035]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "Protocol Modifications for the DNS Security
+              Extensions", RFC 4035, March 2005.
+
+   [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
+              for DNS (EDNS(0))", STD 75, RFC 6891, April 2013.
+
+9.2.  Informative References
+
+   [RFC5011]  StJohns, M., "Automated Updates of DNS Security (DNSSEC)
+              Trust Anchors", STD 74, RFC 5011, September 2007.
+
+Author's Address
+
+   Duane Wessels
+   Verisign Labs
+   12061 Bluemont Way
+   Reston, VA  20190
+
+   Phone: +1 703 948-3200
+   Email: dwessels@verisign.com
+   URI:   http://verisigninc.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wessels                 Expires October 18, 2015                [Page 6]
