@@ -316,16 +316,33 @@ An alternate method (rfc include) is described in the references. -->
 
 
     <section title="Security Considerations" anchor="security">
-      <t>TBD</t>
+      <t>
+        This document specifies a way for a client to signal its trust anchor
+        knowledge to a cache or server.  The signals
+        are optional codes contained in the OPT meta-RR used with EDNS.  The
+        goal of these options is to signal new trust anchor uptake in client
+        code to allow zone administrators to know when it is possible to
+        complete a key rollover in a DNSSEC-signed zone.
+      </t>
+      <t>
+        There is a possibility that an eavesdropper or server could infer the
+        validator in use by a client by the key tag list seen in queries. 
+	This may allow an attacker to find validators using old, possibly broken, keys.
+        It could also be used to identify the
+        validator or narrow down the possible validator implementations in
+        use by a client, which could have a known vulnerability that could be
+        exploited by the attacker.
+      </t>
     </section>
 
     <section title="Privacy Considerations" anchor="privacy">
-      <t>TBD</t>
+      <t>
+	
+      </t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>
-        Thanks to ...
       </t>
     </section>
 
