@@ -29,6 +29,7 @@ An alternate method (rfc include) is described in the references. -->
 <!ENTITY RFC5625 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5625.xml">
 <!ENTITY RFC6824 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6824.xml">
 <!ENTITY RFC6891 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6891.xml">
+<!ENTITY RFC6975 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6975.xml">
 <!ENTITY RFC7230 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml">
 <!ENTITY RFC7323 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7323.xml">
 ]>
@@ -358,7 +359,7 @@ An alternate method (rfc include) is described in the references. -->
 
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>
-	This document was inspired by and borrows heavily from <xref target="RF6975"/>.
+	This document was inspired by and borrows heavily from <xref target="RFC6975"/>.
       </t>
     </section>
 
