@@ -337,15 +337,30 @@ An alternate method (rfc include) is described in the references. -->
 
     <section title="Privacy Considerations" anchor="privacy">
       <t>
-	
+	This proposal adds additional "signaling" to DNS queries
+	in the form of key tag values.  While key tag values
+	themselves are not considered private information, it may
+	be possible for an eavesdropper to use key tag values as a
+	fingerprinting technique to identify particular DNS validating
+	clients.  This may be especially true if the validator is
+	configured with trust anchor for zones in addition to the
+	root zone.
+      </t>
+      <t>
+	A validating end-system resolver need not transmit the
+	edns-key-tag option in every applicable query.  Due to
+	privacy concerns, such a resolver MAY choose to transmit
+	the edns-key-tag option for a subset of queries (e.g., every
+	25th time), or by random chance with a certain probability
+	(e.g., 5%).
       </t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>
+	This document was inspired by and borrows heavily from <xref target="RF6975"/>.
       </t>
     </section>
-
 
   </middle>
   <back>
@@ -362,6 +377,7 @@ An alternate method (rfc include) is described in the references. -->
 
     <references title="Informative References">
     &RFC5011;
+    &RFC6975;
     </references>
 
   </back>
