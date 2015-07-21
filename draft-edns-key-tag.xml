@@ -149,7 +149,7 @@ An alternate method (rfc include) is described in the references. -->
       </t>
       <t>
 	This proposed EDNS option serves to measure the 
-	acceptance and use of new trust anchors and zone signing keys (ZSKs).
+	acceptance and use of new trust anchors and key signing keys (KSKs).
 	This signaling option can be used by zone administrators as a gauge
 	to measure the successful deployment of new keys.  This is of particular
 	interest for the DNS root zone in the event of key and/or algorithm rollovers which
