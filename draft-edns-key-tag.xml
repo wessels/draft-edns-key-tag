@@ -163,7 +163,7 @@ An alternate method (rfc include) is described in the references. -->
 	query can signal the set of keys that a client uses for DNSSEC validation.
       </t>
     </section>
-    <section title="Terminology">
+    <section title="Requirements Terminology">
       <t>
         The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -172,6 +172,30 @@ An alternate method (rfc include) is described in the references. -->
       </t>
     </section>
 
+    <section title="Terminology">
+      <t>
+      <list style="hanging">
+	<t hangText="Trust Anchor:">A configured
+	  DNSKEY RR or DS RR hash of a DNSKEY RR.  A validating
+	  security-aware resolver uses this public key or hash as a
+	  starting point for building the authentication chain to a
+	  signed DNS response.  In general, a validating resolver
+	  will have to obtain the initial values of its trust anchors
+	  via some secure or trusted means outside the DNS protocol.
+	  Presence of a trust anchor also implies that the resolver
+	  should expect the zone to which the trust anchor points to
+	  be signed. (quoted from <xref target="RFC4033"/> Section 2)</t>
+	<t hangText="Key Tag:">A 16-bit integer that identifies and enables efficient
+	  selection of DNSSEC public keys.  A Key Tag value can be
+	  computed over the RDATA of a DNSKEY RR.  The Key Tag field
+	  in the RRSIG and DS records can be used to help select
+	  the corresponding DNSKEY RR efficiently when more than
+	  one candidate DNSKEY RR is available.  For most algorithms
+	  the Key Tag is a simple 16-bit modular sum of the DNSKEY
+	  RDATA.  See <xref target="RFC4034"/> Appendix B.</t>
+      </list>
+      </t>
+    </section>
 
     <section title="Option Format" anchor="option-format">
       <t>The edns-key-tag option is encoded as follows:</t>
@@ -205,13 +229,13 @@ An alternate method (rfc include) is described in the references. -->
       <t>
 	A validating end-system resolver sets the edns-key-tag
 	option in the OPT meta-RR when sending a
-	query.  The validating end-system resolver MUST also set the DNSSEC
+	query.  The validating end-system resolver SHOULD also set the DNSSEC
 	OK bit <xref target="RFC4034"/> to indicate that it wishes to receive DNSSEC RRs in
 	the response.
       </t>
       <t>
-	[The KEY-TAG value(s) included in the edns-key-tag option represent the
-	Key Tag of the DNSKEY that will be used to validate the expected response.]
+	The KEY-TAG value(s) included in the edns-key-tag option represent the
+	Key Tag of the Trust Anchor that will be used to validate the expected response.
 	When the client sends a DNSKEY query, the edns-key-tag option represents
 	the key tag(s) of the KSK(s) of the zone for which the server is authoritative.
 	A validating end-system resolver learns the key tag(s) of the KSK(s) from the zone's
@@ -264,11 +288,11 @@ An alternate method (rfc include) is described in the references. -->
 	    option when performing recursion based on relevant keys it knows
 	    and any edns-key-tag values in the stub client query.
 	    When the recursive server receives a query with the
-	    option set, the recursive server MUST set the edns-key-tag list for any
+	    option set, the recursive server SHOULD set the edns-key-tag list for any
 	    outgoing iterative queries for that resolution chain to a union of
 	    the stub client's key tags and the validating recursive resolver's key tags.
 	    For example, if the recursive resolver's key tag list is (19036, 12345)
-	    and the stub's algorithm list is (19036, 34567), the
+	    and the stub's list is (19036, 34567), the
 	    final edns-key-tag list would be (19036, 12345, 34567).
 	  </t>
 	  <t>
@@ -286,8 +310,8 @@ An alternate method (rfc include) is described in the references. -->
 
 	<section title="Non-validating Recursive Resolvers">
 	  <t>
-	    Recursive resolvers that do not do validation MUST copy the edns-key-tag
-	    option seen in received queries as they represent the
+	    Recursive resolvers that do not validate responses SHOULD copy the edns-key-tag
+	    option seen in received queries, as they represent the
 	    wishes of the validating downstream resolver that issued the original
 	    query.
 	  </t>
