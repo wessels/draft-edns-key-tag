@@ -212,7 +212,7 @@ An alternate method (rfc include) is described in the references. -->
       <t>
 	[The KEY-TAG value(s) included in the edns-key-tag option represent the
 	Key Tag of the DNSKEY that will be used to validate the expected response.]
-	When the client sends a DNSKEY query, the edns-key-tag opton represents
+	When the client sends a DNSKEY query, the edns-key-tag option represents
 	the key tag(s) of the KSK(s) of the zone for which the server is authoritative.
 	A validating end-system resolver learns the key tag(s) of the KSK(s) from the zone's
 	DS record(s) (found in the parent), or from a configured trust anchor.
@@ -357,7 +357,7 @@ An alternate method (rfc include) is described in the references. -->
       </t>
     </section>
 
-    <section anchor="Acknowledgements" title="Acknowledgements">
+    <section anchor="Acknowledgments" title="Acknowledgments">
       <t>
 	This document was inspired by and borrows heavily from <xref target="RFC6975"/>.
       </t>
