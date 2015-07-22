@@ -403,7 +403,8 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
 10.  Acknowledgments
 
-   This document was inspired by and borrows heavily from [RFC6975].
+   This document was inspired by and borrows heavily from [RFC6975] by
+   Scott Rose and Steve Crocker.
 
 
 11.  References
@@ -440,7 +441,6 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
    [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
               for DNS (EDNS(0))", STD 75, RFC 6891, DOI 10.17487/
-              RFC6891, April 2013,
 
 
 
@@ -449,6 +449,7 @@ Wessels                 Expires January 23, 2016                [Page 8]
 Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
+              RFC6891, April 2013,
               <http://www.rfc-editor.org/info/rfc6891>.
 
 11.2.  Informative References
@@ -473,7 +474,6 @@ Author's Address
    Phone: +1 703 948-3200
    Email: dwessels@verisign.com
    URI:   http://verisigninc.com
-
 
 
 

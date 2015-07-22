@@ -416,7 +416,8 @@ An alternate method (rfc include) is described in the references. -->
 
     <section anchor="Acknowledgments" title="Acknowledgments">
       <t>
-	This document was inspired by and borrows heavily from <xref target="RFC6975"/>.
+	This document was inspired by and borrows heavily from <xref target="RFC6975"/>
+	by Scott Rose and Steve Crocker.
       </t>
     </section>
 
