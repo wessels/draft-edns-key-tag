@@ -1,0 +1,667 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>The EDNS Key Tag Option</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="The EDNS Key Tag Option">
+<meta name="keywords" content="DNS, TCP/IP, transport">
+<meta name="generator" content="xml2rfc v1.36 (http://xml.resource.org/)">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">Internet Engineering Task Force</td><td class="header">D. Wessels</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">Verisign Labs</td></tr>
+<tr><td class="header">Intended status: Standards Track</td><td class="header">April 2015</td></tr>
+<tr><td class="header">Expires: October 3, 2015</td><td class="header">&nbsp;</td></tr>
+</table></td></tr></table>
+<h1><br />The EDNS Key Tag Option<br />draft-edns-key-tag</h1>
+
+<h3>Abstract</h3>
+
+<p>
+	The DNS Security Extensions (DNSSEC) were developed to provide
+	origin authentication and integrity protection for DNS data
+	by using digital signatures.  These digital signatures can be
+	verified by building a chain-of-trust starting from a trust
+	anchor and proceeding down to a particular node in the DNS.
+	This document specifies a way for validating end-system
+	resolvers to signal to a server which keys are referenced in
+	their chain-of-trust.  The extensions allow zone administrators
+	to monitor the progress of rollovers in a DNSSEC-signed zone.
+      
+</p>
+<h3>Status of this Memo</h3>
+<p>
+This Internet-Draft is submitted  in full
+conformance with the provisions of BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF).  Note that other groups may also distribute
+working documents as Internet-Drafts.  The list of current
+Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+This Internet-Draft will expire on October 3, 2015.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright (c) 2015 IETF Trust and the persons identified as the
+document authors.  All rights reserved.</p>
+<p>
+This document is subject to BCP 78 and the IETF Trust's Legal
+Provisions Relating to IETF Documents
+(http://trustee.ietf.org/license-info) in effect on the date of
+publication of this document.  Please review these documents
+carefully, as they describe your rights and restrictions with respect
+to this document. Code Components extracted from this document must
+include Simplified BSD License text as described in Section 4.e of
+the Trust Legal Provisions and are provided without warranty as
+described in the Simplified BSD License.</p>
+<a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Introduction<br />
+<a href="#anchor2">2.</a>&nbsp;
+Requirements Terminology<br />
+<a href="#anchor3">3.</a>&nbsp;
+Terminology<br />
+<a href="#option-format">4.</a>&nbsp;
+Option Format<br />
+<a href="#anchor4">5.</a>&nbsp;
+Use By Queriers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">5.1.</a>&nbsp;
+Stub Resolvers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">5.1.1.</a>&nbsp;
+Validating Stub Resolvers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor7">5.1.2.</a>&nbsp;
+Non-validating Stub Resolvers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">5.2.</a>&nbsp;
+Recursive Resolvers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">5.2.1.</a>&nbsp;
+Validating Recursive Resolvers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">5.2.2.</a>&nbsp;
+Non-validating Recursive Resolvers<br />
+<a href="#anchor11">6.</a>&nbsp;
+Use By Responders<br />
+<a href="#anchor12">7.</a>&nbsp;
+IANA Considerations<br />
+<a href="#security">8.</a>&nbsp;
+Security Considerations<br />
+<a href="#privacy">9.</a>&nbsp;
+Privacy Considerations<br />
+<a href="#Acknowledgments">10.</a>&nbsp;
+Acknowledgments<br />
+<a href="#rfc.references1">11.</a>&nbsp;
+References<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references1">11.1.</a>&nbsp;
+Normative References<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references2">11.2.</a>&nbsp;
+Informative References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Author's Address<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Introduction</h3>
+
+<p>
+	The DNS Security Extensions (DNSSEC) <a class='info' href='#RFC4033'>[RFC4033]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;DNS Security Introduction and Requirements,&rdquo; March&nbsp;2005.</span><span>)</span></a>, 
+	<a class='info' href='#RFC4034'>[RFC4034]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Resource Records for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a> and <a class='info' href='#RFC4035'>[RFC4035]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Protocol Modifications for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a> were developed 
+	to provide origin 
+	authentication and integrity protection for DNS data by using digital 
+	signatures.  DNSSEC uses Key Tags to efficiently match signatures to
+	the keys from which they are generated.  The Key Tag is a 16-bit
+	value computed from the RDATA portion of a DNSKEY RR using a formula
+	not unlike a ones-complement checksum.  RRSIG RRs contain a Key Tag
+	field whose value is equal to the Key Tag of the DNSKEY RR that validates
+	the signature.
+      
+</p>
+<p>
+	Likewise, Delegation Signer (DS) RRs also contain a Key Tag field whose
+	value is equal to the Key Tag of the DNSKEY RR to which it refers.
+      
+</p>
+<p>
+	This draft sets out to specify a way for validating end-system
+	resolvers to tell a server in a DNS query which DNSSEC key(s) they
+	would use to validate the expected response.  This is done using the
+	new EDNS option specified below in <a class='info' href='#option-format'>Section&nbsp;4<span> (</span><span class='info'>Option Format</span><span>)</span></a> for use in the
+	OPT meta-RR <a class='info' href='#RFC6891'>[RFC6891]<span> (</span><span class='info'>Damas, J., Graff, M., and P. Vixie, &ldquo;Extension Mechanisms for DNS (EDNS(0)),&rdquo; April&nbsp;2013.</span><span>)</span></a>.
+	This new EDNS option code is OPTIONAL to implement and use.
+      
+</p>
+<p>
+	This proposed EDNS option serves to measure the 
+	acceptance and use of new trust anchors and key signing keys (KSKs).
+	This signaling option can be used by zone administrators as a gauge
+	to measure the successful deployment of new keys.  This is of particular
+	interest for the DNS root zone in the event of key and/or algorithm rollovers which
+	relies on <a class='info' href='#RFC5011'>[RFC5011]<span> (</span><span class='info'>StJohns, M., &ldquo;Automated Updates of DNS Security (DNSSEC) Trust Anchors,&rdquo; September&nbsp;2007.</span><span>)</span></a> to automatically update a validating end-system's
+	trust anchor.
+      
+</p>
+<p>
+	This draft does not seek to introduce another process for rolling keys or updating
+	trust anchors.  
+	Rather, this document specifies a means by which a client 
+	query can signal the set of keys that a client uses for DNSSEC validation.
+      
+</p>
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+Requirements Terminology</h3>
+
+<p>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <a class='info' href='#RFC2119'>[RFC2119]<span> (</span><span class='info'>Bradner, S., &ldquo;Key words for use in RFCs to Indicate Requirement Levels,&rdquo; March&nbsp;1997.</span><span>)</span></a>.
+      
+</p>
+<a name="anchor3"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Terminology</h3>
+
+<p>
+      </p>
+<blockquote class="text"><dl>
+<dt>Trust Anchor:</dt>
+<dd>A configured
+	  DNSKEY RR or DS RR hash of a DNSKEY RR.  A validating
+	  security-aware resolver uses this public key or hash as a
+	  starting point for building the authentication chain to a
+	  signed DNS response.  In general, a validating resolver
+	  will have to obtain the initial values of its trust anchors
+	  via some secure or trusted means outside the DNS protocol.
+	  Presence of a trust anchor also implies that the resolver
+	  should expect the zone to which the trust anchor points to
+	  be signed. (quoted from <a class='info' href='#RFC4033'>[RFC4033]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;DNS Security Introduction and Requirements,&rdquo; March&nbsp;2005.</span><span>)</span></a> Section 2)
+</dd>
+<dt>Key Tag:</dt>
+<dd>A 16-bit integer that identifies and enables efficient
+	  selection of DNSSEC public keys.  A Key Tag value can be
+	  computed over the RDATA of a DNSKEY RR.  The Key Tag field
+	  in the RRSIG and DS records can be used to help select
+	  the corresponding DNSKEY RR efficiently when more than
+	  one candidate DNSKEY RR is available.  For most algorithms
+	  the Key Tag is a simple 16-bit modular sum of the DNSKEY
+	  RDATA.  See <a class='info' href='#RFC4034'>[RFC4034]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Resource Records for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a> Appendix B.
+</dd>
+</dl></blockquote><p>
+      
+</p>
+<a name="option-format"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+Option Format</h3>
+
+<p>The edns-key-tag option is encoded as follows:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+0                       8                      16
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                  OPTION-CODE                  |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                 OPTION-LENGTH                 |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                    KEY-TAG                    |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                      ...                      /
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+</pre></div>
+<p>where:
+
+          </p>
+<blockquote class="text"><dl>
+<dt>OPTION-CODE: </dt>
+<dd>The EDNS0 option code
+              assigned to edns-key-tag, [TBD].
+</dd>
+<dt>OPTION-LENGTH: </dt>
+<dd>The value 2 x number of key-tag values present.
+</dd>
+<dt>KEY-TAG: </dt>
+<dd>One or more 16-bit Key Tag values (<a class='info' href='#RFC4034'>[RFC4034]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Resource Records for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a>, Appendix B).
+</dd>
+</dl></blockquote><p>
+        
+</p>
+<a name="anchor4"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;
+Use By Queriers</h3>
+
+<p>
+	A validating end-system resolver sets the edns-key-tag
+	option in the OPT meta-RR when sending a
+	DNSKEY query.  The validating end-system resolver SHOULD also set the DNSSEC
+	OK bit <a class='info' href='#RFC4034'>[RFC4034]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Resource Records for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a> to indicate that it wishes to receive DNSSEC RRs in
+	the response.
+      
+</p>
+<p>
+	A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY queries.
+      
+</p>
+<p>
+	The KEY-TAG value(s) included in the edns-key-tag option represent the
+	Key Tag of the Trust Anchor or DNSKEY RR that will be used to validate the expected response.
+	When the client sends a DNSKEY query, the edns-key-tag option represents
+	the Key Tag(s) of the KSK(s) of the zone for which the server is authoritative.
+	A validating end-system resolver learns the Key Tag(s) of the KSK(s) from the zone's
+	DS record(s) (found in the parent), or from a configured trust anchor.
+      
+</p>
+<p>
+	A DNS client SHOULD include the edns-key-tag option when issuing a DNSKEY
+	query for a zone corresponding to a configured Trust Anchor.
+      
+</p>
+<p>
+	A DNS client MAY include the edns-key-tag option when issuing
+	a DNSKEY query for a non-Trust Anchor zone (i.e., Key Tags
+	learned via DS records).  Since some DNSSEC validators
+	implement bottom-up validation, non-Trust Anchor Key Tags
+	zone might not be known at the time of the query.  Such a
+	validator can include the edns-key-tag option based on
+	previously cached data.
+      
+</p>
+<p>
+	A DNS client MUST NOT include Key Tag(s) for keys which are
+	not learned via either configured Trust Anchor or DS records.
+      
+</p>
+<p>
+	Since the edns-key-tag option is only set in the query, if
+	a client sees these options in the response, no action needs to be
+	taken and the client MUST ignore the option values.
+      
+</p>
+<a name="anchor5"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.1"></a><h3>5.1.&nbsp;
+Stub Resolvers</h3>
+
+<p>
+	  Typically, stub resolvers rely on an upstream recursive server (or
+	  cache) to provide a response.  Optimal setting of the edns-key-tag
+	  option depends on whether the stub resolver elects to
+	  perform its own validation.
+	
+</p>
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.1.1"></a><h3>5.1.1.&nbsp;
+Validating Stub Resolvers</h3>
+
+<p>
+	    A validating stub resolver sets the DNSSEC OK (DO) bit <a class='info' href='#RFC4034'>[RFC4034]<span> (</span><span class='info'>Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;Resource Records for the DNS Security Extensions,&rdquo; March&nbsp;2005.</span><span>)</span></a> to
+	    indicate that it wishes to receive additional DNSSEC RRs (i.e., RRSIG
+	    RRs) in the response.  Such validating resolvers SHOULD include the
+	    edns-key-tag option in the OPT RR when sending a DNSKEY
+	    query.
+	  
+</p>
+<a name="anchor7"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.1.2"></a><h3>5.1.2.&nbsp;
+Non-validating Stub Resolvers</h3>
+
+<p>
+	    The edns-key-tag option MUST NOT be included by
+	    non-validating stub resolvers.
+	  
+</p>
+<a name="anchor8"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.2"></a><h3>5.2.&nbsp;
+Recursive Resolvers</h3>
+
+<p>
+</p>
+<a name="anchor9"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.2.1"></a><h3>5.2.1.&nbsp;
+Validating Recursive Resolvers</h3>
+
+<p>
+	    A validating recursive resolver sets the edns-key-tag
+	    option when performing recursion based on relevant keys it knows
+	    and any edns-key-tag values in the stub client query.
+	    When the recursive server receives a query with the
+	    option set, the recursive server SHOULD set the edns-key-tag list for any
+	    outgoing iterative queries for that resolution chain to a union of
+	    the stub client's Key Tag(s) and the validating recursive resolver's Key Tag(s).
+	    For example, if the recursive resolver's Key Tag list is (19036, 12345)
+	    and the stub's list is (19036, 34567), the
+	    final edns-key-tag list would be (19036, 12345, 34567).
+	  
+</p>
+<p>
+	    If the client included the DO and Checking Disabled (CD) bits, but
+	    did not include the edns-key-tag option in the query, the
+	    validating recursive resolver MAY include the option with its own
+	    Key Tag values in full.
+	  
+</p>
+<p>
+	    Validating recursive resolvers MUST NOT set the edns-key-tag
+	    option in the final response to the stub client.
+	  
+</p>
+<a name="anchor10"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.2.2"></a><h3>5.2.2.&nbsp;
+Non-validating Recursive Resolvers</h3>
+
+<p>
+	    Recursive resolvers that do not validate responses SHOULD copy the edns-key-tag
+	    option seen in received queries, as they represent the
+	    wishes of the validating downstream resolver that issued the original
+	    query.
+	  
+</p>
+<a name="anchor11"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
+Use By Responders</h3>
+
+<p>
+	An authoritative name server receiving queries with the
+	edns-key-tag option MAY log or otherwise collect the Key
+	Tag values to provide information to the zone operator.
+      
+</p>
+<p>
+	A responder MUST NOT include the edns-key-tag option in any
+	DNS response.
+      
+</p>
+<a name="anchor12"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;
+IANA Considerations</h3>
+
+<p>The IANA is directed to assign an EDNS0 option code for
+        the edns-key-tag option from the DNS EDNS0 Option Codes (OPT)
+        registry as follows:
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left"><col align="left"><col align="left">
+<tr><th align="left">Value</th><th align="left">Name</th><th align="left">Status</th><th align="left">Reference</th></tr>
+<tr>
+<td align="left">[TBA]</td>
+<td align="left">edns-key-tag</td>
+<td align="left">Optional</td>
+<td align="left">[This document]</td>
+</tr>
+</table>
+<br clear="all" />
+
+<a name="security"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;
+Security Considerations</h3>
+
+<p>
+        This document specifies a way for a client to signal its trust anchor
+        knowledge to a cache or server.  The signals
+        are optional codes contained in the OPT meta-RR used with EDNS.  The
+        goal of these options is to signal new trust anchor uptake in client
+        code to allow zone administrators to know when it is possible to
+        complete a key rollover in a DNSSEC-signed zone.
+      
+</p>
+<p>
+        There is a possibility that an eavesdropper or server could infer the
+        validator in use by a client by the Key Tag list seen in queries. 
+	This may allow an attacker to find validators using old, possibly broken, keys.
+        It could also be used to identify the
+        validator or narrow down the possible validator implementations in
+        use by a client, which could have a known vulnerability that could be
+        exploited by the attacker.
+      
+</p>
+<a name="privacy"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.9"></a><h3>9.&nbsp;
+Privacy Considerations</h3>
+
+<p>
+	This proposal adds additional "signaling" to DNS queries
+	in the form of Key Tag values.  While Key Tag values
+	themselves are not considered private information, it may
+	be possible for an eavesdropper to use Key Tag values as a
+	fingerprinting technique to identify particular DNS validating
+	clients.  This may be especially true if the validator is
+	configured with trust anchor for zones in addition to the
+	root zone.
+      
+</p>
+<p>
+	A validating end-system resolver need not transmit the
+	edns-key-tag option in every applicable query.  Due to
+	privacy concerns, such a resolver MAY choose to transmit
+	the edns-key-tag option for a subset of queries (e.g., every
+	25th time), or by random chance with a certain probability
+	(e.g., 5%).
+      
+</p>
+<p>
+	Implementations of this specification MAY be administratively
+	configured to only transmit the edns-key-tag option for
+	certain zones.  For example, the software's configuration
+	file may specify a list of zones for which use of the option
+	is allowed or denied.  Since the primary motivation for
+	this specification is to provide operational measurement
+	data for root zone key rollovers, it is RECOMMENDED that
+	implementations at least include the edns-key-tag option
+	for root zone DNSKEY queries.
+      
+</p>
+<a name="Acknowledgments"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.10"></a><h3>10.&nbsp;
+Acknowledgments</h3>
+
+<p>
+	This document was inspired by and borrows heavily from <a class='info' href='#RFC6975'>[RFC6975]<span> (</span><span class='info'>Crocker, S. and S. Rose, &ldquo;Signaling Cryptographic Algorithm Understanding in DNS Security Extensions (DNSSEC),&rdquo; July&nbsp;2013.</span><span>)</span></a>.
+      
+</p>
+<a name="rfc.references"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.11"></a><h3>11.&nbsp;
+References</h3>
+
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>11.1.&nbsp;Normative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC1034">[RFC1034]</a></td>
+<td class="author-text">Mockapetris, P., &ldquo;<a href="http://www.rfc-editor.org/info/rfc1034">Domain names - concepts and facilities</a>,&rdquo; STD&nbsp;13, RFC&nbsp;1034, DOI&nbsp;10.17487/RFC1034, November&nbsp;1987.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC1035">[RFC1035]</a></td>
+<td class="author-text">Mockapetris, P., &ldquo;<a href="http://www.rfc-editor.org/info/rfc1035">Domain names - implementation and specification</a>,&rdquo; STD&nbsp;13, RFC&nbsp;1035, DOI&nbsp;10.17487/RFC1035, November&nbsp;1987.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
+<td class="author-text">Bradner, S., &ldquo;<a href="http://www.rfc-editor.org/info/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; BCP&nbsp;14, RFC&nbsp;2119, DOI&nbsp;10.17487/RFC2119, March&nbsp;1997.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC4033">[RFC4033]</a></td>
+<td class="author-text">Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;<a href="http://www.rfc-editor.org/info/rfc4033">DNS Security Introduction and Requirements</a>,&rdquo; RFC&nbsp;4033, DOI&nbsp;10.17487/RFC4033, March&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC4034">[RFC4034]</a></td>
+<td class="author-text">Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;<a href="http://www.rfc-editor.org/info/rfc4034">Resource Records for the DNS Security Extensions</a>,&rdquo; RFC&nbsp;4034, DOI&nbsp;10.17487/RFC4034, March&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC4035">[RFC4035]</a></td>
+<td class="author-text">Arends, R., Austein, R., Larson, M., Massey, D., and S. Rose, &ldquo;<a href="http://www.rfc-editor.org/info/rfc4035">Protocol Modifications for the DNS Security Extensions</a>,&rdquo; RFC&nbsp;4035, DOI&nbsp;10.17487/RFC4035, March&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC6891">[RFC6891]</a></td>
+<td class="author-text">Damas, J., Graff, M., and P. Vixie, &ldquo;<a href="http://www.rfc-editor.org/info/rfc6891">Extension Mechanisms for DNS (EDNS(0))</a>,&rdquo; STD&nbsp;75, RFC&nbsp;6891, DOI&nbsp;10.17487/RFC6891, April&nbsp;2013.</td></tr>
+</table>
+
+<a name="rfc.references2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>11.2.&nbsp;Informative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC5011">[RFC5011]</a></td>
+<td class="author-text">StJohns, M., &ldquo;<a href="http://www.rfc-editor.org/info/rfc5011">Automated Updates of DNS Security (DNSSEC) Trust Anchors</a>,&rdquo; STD&nbsp;74, RFC&nbsp;5011, DOI&nbsp;10.17487/RFC5011, September&nbsp;2007.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC6975">[RFC6975]</a></td>
+<td class="author-text">Crocker, S. and S. Rose, &ldquo;<a href="http://www.rfc-editor.org/info/rfc6975">Signaling Cryptographic Algorithm Understanding in DNS Security Extensions (DNSSEC)</a>,&rdquo; RFC&nbsp;6975, DOI&nbsp;10.17487/RFC6975, July&nbsp;2013.</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Duane Wessels</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Verisign Labs</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">12061 Bluemont Way</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Reston, VA  20190</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1 703 948-3200</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:dwessels@verisign.com">dwessels@verisign.com</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://verisigninc.com">http://verisigninc.com</a></td></tr>
+</table>
+</body></html>
