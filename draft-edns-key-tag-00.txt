@@ -3,8 +3,8 @@
 
 Internet Engineering Task Force                               D. Wessels
 Internet-Draft                                             Verisign Labs
-Intended status: Standards Track                              April 2015
-Expires: October 3, 2015
+Intended status: Standards Track                           July 22, 2015
+Expires: January 23, 2016
 
 
                         The EDNS Key Tag Option
@@ -37,7 +37,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on October 3, 2015.
+   This Internet-Draft will expire on January 23, 2016.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Wessels                  Expires October 3, 2015                [Page 1]
+Wessels                 Expires January 23, 2016                [Page 1]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
    to this document.  Code Components extracted from this document must
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Wessels                  Expires October 3, 2015                [Page 2]
+Wessels                 Expires January 23, 2016                [Page 2]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 3]
+Wessels                 Expires January 23, 2016                [Page 3]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
    Trust Anchor:  A configured DNSKEY RR or DS RR hash of a DNSKEY RR.
@@ -220,9 +220,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 4]
+Wessels                 Expires January 23, 2016                [Page 4]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
    it wishes to receive DNSSEC RRs in the response.
@@ -276,9 +276,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 5]
+Wessels                 Expires January 23, 2016                [Page 5]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 5.1.2.  Non-validating Stub Resolvers
@@ -332,9 +332,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 6]
+Wessels                 Expires January 23, 2016                [Page 6]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 7.  IANA Considerations
@@ -388,9 +388,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 7]
+Wessels                 Expires January 23, 2016                [Page 7]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
    zones.  For example, the software's configuration file may specify a
@@ -444,9 +444,9 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 
 
 
-Wessels                  Expires October 3, 2015                [Page 8]
+Wessels                 Expires January 23, 2016                [Page 8]
 
-Internet-Draft             EDNS Key Tag Option                April 2015
+Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
               <http://www.rfc-editor.org/info/rfc6891>.
@@ -500,5 +500,5 @@ Author's Address
 
 
 
-Wessels                  Expires October 3, 2015                [Page 9]
+Wessels                 Expires January 23, 2016                [Page 9]
 
