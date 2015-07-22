@@ -66,25 +66,25 @@ Internet-Draft             EDNS Key Tag Option                April 2015
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
-   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . . . 3
-   3.  Option Format . . . . . . . . . . . . . . . . . . . . . . . . . 3
-   4.  Client Considerations . . . . . . . . . . . . . . . . . . . . . 4
-     4.1.  Stub Resolvers  . . . . . . . . . . . . . . . . . . . . . . 5
-       4.1.1.  Validating Stub Resolvers . . . . . . . . . . . . . . . 5
-       4.1.2.  Non-validating Stub Resolvers . . . . . . . . . . . . . 5
-     4.2.  Recursive Resolvers . . . . . . . . . . . . . . . . . . . . 5
-       4.2.1.  Validating Recursive Resolvers  . . . . . . . . . . . . 5
-       4.2.2.  Non-validating Recursive Resolvers  . . . . . . . . . . 5
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . . . 6
-   8.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 7
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . . . 7
-     9.2.  Informative References  . . . . . . . . . . . . . . . . . . 7
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 8
-
-
+   2.  Requirements Terminology  . . . . . . . . . . . . . . . . . . . 3
+   3.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+   4.  Option Format . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   5.  Use By Queriers . . . . . . . . . . . . . . . . . . . . . . . . 4
+     5.1.  Stub Resolvers  . . . . . . . . . . . . . . . . . . . . . . 5
+       5.1.1.  Validating Stub Resolvers . . . . . . . . . . . . . . . 5
+       5.1.2.  Non-validating Stub Resolvers . . . . . . . . . . . . . 6
+     5.2.  Recursive Resolvers . . . . . . . . . . . . . . . . . . . . 6
+       5.2.1.  Validating Recursive Resolvers  . . . . . . . . . . . . 6
+       5.2.2.  Non-validating Recursive Resolvers  . . . . . . . . . . 6
+   6.  Use By Responders . . . . . . . . . . . . . . . . . . . . . . . 6
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . . . 7
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . . . 7
+   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . 8
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+     11.1. Normative References  . . . . . . . . . . . . . . . . . . . 8
+     11.2. Informative References  . . . . . . . . . . . . . . . . . . 9
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 9
 
 
 
@@ -118,27 +118,27 @@ Internet-Draft             EDNS Key Tag Option                April 2015
    The DNS Security Extensions (DNSSEC) [RFC4033], [RFC4034] and
    [RFC4035] were developed to provide origin authentication and
    integrity protection for DNS data by using digital signatures.
-   DNSSEC uses key tags to efficiently match signatures to the keys from
-   which they are generated.  The key tag is a 16-bit value computed
+   DNSSEC uses Key Tags to efficiently match signatures to the keys from
+   which they are generated.  The Key Tag is a 16-bit value computed
    from the RDATA portion of a DNSKEY RR using a formula not unlike a
    ones-complement checksum.  RRSIG RRs contain a Key Tag field whose
-   value is equal to the key tag of the DNSKEY RR that validates the
+   value is equal to the Key Tag of the DNSKEY RR that validates the
    signature.
 
-   Likewise, Delegation Signer (DS) RRs also contain a key tag field
-   whose value is equal to the key tag of the DNSKEY RR to which it
+   Likewise, Delegation Signer (DS) RRs also contain a Key Tag field
+   whose value is equal to the Key Tag of the DNSKEY RR to which it
    refers.
 
    This draft sets out to specify a way for validating end-system
    resolvers to tell a server in a DNS query which DNSSEC key(s) they
    would use to validate the expected response.  This is done using the
-   new EDNS option specified below in Section 3 for use in the OPT
+   new EDNS option specified below in Section 4 for use in the OPT
    meta-RR [RFC6891].  This new EDNS option code is OPTIONAL to
    implement and use.
 
    This proposed EDNS option serves to measure the acceptance and use of
-   new trust anchors and zone signing keys (ZSKs).  This signaling
-   option can be used by zone administrators as a gauge to measure the
+   new trust anchors and key signing keys (KSKs).  This signaling option
+   can be used by zone administrators as a gauge to measure the
    successful deployment of new keys.  This is of particular interest
    for the DNS root zone in the event of key and/or algorithm rollovers
    which relies on [RFC5011] to automatically update a validating end-
@@ -150,16 +150,16 @@ Internet-Draft             EDNS Key Tag Option                April 2015
    client uses for DNSSEC validation.
 
 
-2.  Terminology
+2.  Requirements Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119].
 
 
-3.  Option Format
+3.  Terminology
 
-   The edns-key-tag option is encoded as follows:
+
 
 
 
@@ -168,6 +168,29 @@ Wessels                  Expires October 3, 2015                [Page 3]
 
 Internet-Draft             EDNS Key Tag Option                April 2015
 
+
+   Trust Anchor:  A configured DNSKEY RR or DS RR hash of a DNSKEY RR.
+      A validating security-aware resolver uses this public key or hash
+      as a starting point for building the authentication chain to a
+      signed DNS response.  In general, a validating resolver will have
+      to obtain the initial values of its trust anchors via some secure
+      or trusted means outside the DNS protocol.  Presence of a trust
+      anchor also implies that the resolver should expect the zone to
+      which the trust anchor points to be signed. (quoted from [RFC4033]
+      Section 2)
+
+   Key Tag:  A 16-bit integer that identifies and enables efficient
+      selection of DNSSEC public keys.  A Key Tag value can be computed
+      over the RDATA of a DNSKEY RR.  The Key Tag field in the RRSIG and
+      DS records can be used to help select the corresponding DNSKEY RR
+      efficiently when more than one candidate DNSKEY RR is available.
+      For most algorithms the Key Tag is a simple 16-bit modular sum of
+      the DNSKEY RDATA.  See [RFC4034] Appendix B.
+
+
+4.  Option Format
+
+   The edns-key-tag option is encoded as follows:
 
    0                       8                      16
    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -189,34 +212,11 @@ Internet-Draft             EDNS Key Tag Option                April 2015
    KEY-TAG:   One or more 16-bit Key Tag values ([RFC4034], Appendix B).
 
 
-4.  Client Considerations
+5.  Use By Queriers
 
    A validating end-system resolver sets the edns-key-tag option in the
-   OPT meta-RR when sending a query.  The validating end-system resolver
-   MUST also set the DNSSEC OK bit [RFC4034] to indicate that it wishes
-   to receive DNSSEC RRs in the response.
-
-   [The KEY-TAG value(s) included in the edns-key-tag option represent
-   the Key Tag of the DNSKEY that will be used to validate the expected
-   response.]  When the client sends a DNSKEY query, the edns-key-tag
-   opton represents the key tag(s) of the KSK(s) of the zone for which
-   the server is authoritative.  A validating end-system resolver learns
-   the key tag(s) of the KSK(s) from the zone's DS record(s) (found in
-   the parent), or from a configured trust anchor.
-
-   For non-DNSKEY queries, the edns-key-tag option represents the key
-   tags of all DNSSEC keys in the zone's DNSKEY RRset.
-
-   FOR DISCUSSION: In all likelihood, only the key tags of the KSKs are
-   of interest.  This document could specify that the edns-key-tag
-   option be sent only with DNSKEY queries.
-
-   Since the edns-key-tag option is only set in the query, if a client
-   sees these options in the response, no action needs to be taken and
-   the client MUST ignore the option values.
-
-
-
+   OPT meta-RR when sending a DNSKEY query.  The validating end-system
+   resolver SHOULD also set the DNSSEC OK bit [RFC4034] to indicate that
 
 
 
@@ -225,53 +225,53 @@ Wessels                  Expires October 3, 2015                [Page 4]
 Internet-Draft             EDNS Key Tag Option                April 2015
 
 
-4.1.  Stub Resolvers
+   it wishes to receive DNSSEC RRs in the response.
+
+   A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY
+   queries.
+
+   The KEY-TAG value(s) included in the edns-key-tag option represent
+   the Key Tag of the Trust Anchor or DNSKEY RR that will be used to
+   validate the expected response.  When the client sends a DNSKEY
+   query, the edns-key-tag option represents the Key Tag(s) of the
+   KSK(s) of the zone for which the server is authoritative.  A
+   validating end-system resolver learns the Key Tag(s) of the KSK(s)
+   from the zone's DS record(s) (found in the parent), or from a
+   configured trust anchor.
+
+   A DNS client SHOULD include the edns-key-tag option when issuing a
+   DNSKEY query for a zone corresponding to a configured Trust Anchor.
+
+   A DNS client MAY include the edns-key-tag option when issuing a
+   DNSKEY query for a non-Trust Anchor zone (i.e., Key Tags learned via
+   DS records).  Since some DNSSEC validators implement bottom-up
+   validation, non-Trust Anchor Key Tags zone might not be known at the
+   time of the query.  Such a validator can include the edns-key-tag
+   option based on previously cached data.
+
+   A DNS client MUST NOT include Key Tag(s) for keys which are not
+   learned via either configured Trust Anchor or DS records.
+
+   Since the edns-key-tag option is only set in the query, if a client
+   sees these options in the response, no action needs to be taken and
+   the client MUST ignore the option values.
+
+5.1.  Stub Resolvers
 
    Typically, stub resolvers rely on an upstream recursive server (or
-   cache) to provide a response.  So optimal setting of the edns-key-tag
+   cache) to provide a response.  Optimal setting of the edns-key-tag
    option depends on whether the stub resolver elects to perform its own
    validation.
 
-4.1.1.  Validating Stub Resolvers
+5.1.1.  Validating Stub Resolvers
 
    A validating stub resolver sets the DNSSEC OK (DO) bit [RFC4034] to
    indicate that it wishes to receive additional DNSSEC RRs (i.e., RRSIG
    RRs) in the response.  Such validating resolvers SHOULD include the
-   edns-key-tag option in the OPT RR when sending a query.
+   edns-key-tag option in the OPT RR when sending a DNSKEY query.
 
-4.1.2.  Non-validating Stub Resolvers
 
-   The edns-key-tag option MUST NOT be included by non-validating stub
-   resolvers.
 
-4.2.  Recursive Resolvers
-
-4.2.1.  Validating Recursive Resolvers
-
-   A validating recursive resolver sets the edns-key-tag option when
-   performing recursion based on relevant keys it knows and any edns-
-   key-tag values in the stub client query.  When the recursive server
-   receives a query with the option set, the recursive server MUST set
-   the edns-key-tag list for any outgoing iterative queries for that
-   resolution chain to a union of the stub client's key tags and the
-   validating recursive resolver's key tags.  For example, if the
-   recursive resolver's key tag list is (19036, 12345) and the stub's
-   algorithm list is (19036, 34567), the final edns-key-tag list would
-   be (19036, 12345, 34567).
-
-   If the client included the DO and Checking Disabled (CD) bits, but
-   did not include the edns-key-tag option in the query, the validating
-   recursive resolver MAY include the option with its own key tag values
-   in full.
-
-   Validating recursive resolvers MUST NOT set the edns-key-tag option
-   in the final response to the stub client.
-
-4.2.2.  Non-validating Recursive Resolvers
-
-   Recursive resolvers that do not do validation MUST copy the edns-key-
-   tag option seen in received queries as they represent the wishes of
-   the validating downstream resolver that issued the original query.
 
 
 
@@ -281,51 +281,51 @@ Wessels                  Expires October 3, 2015                [Page 5]
 Internet-Draft             EDNS Key Tag Option                April 2015
 
 
-5.  IANA Considerations
+5.1.2.  Non-validating Stub Resolvers
 
-   The IANA is directed to assign an EDNS0 option code for the edns-key-
-   tag option from the DNS EDNS0 Option Codes (OPT) registry as follows:
+   The edns-key-tag option MUST NOT be included by non-validating stub
+   resolvers.
 
-           +-------+--------------+----------+-----------------+
-           | Value | Name         | Status   | Reference       |
-           +-------+--------------+----------+-----------------+
-           | [TBA] | edns-key-tag | Optional | [This document] |
-           +-------+--------------+----------+-----------------+
+5.2.  Recursive Resolvers
+
+5.2.1.  Validating Recursive Resolvers
+
+   A validating recursive resolver sets the edns-key-tag option when
+   performing recursion based on relevant keys it knows and any edns-
+   key-tag values in the stub client query.  When the recursive server
+   receives a query with the option set, the recursive server SHOULD set
+   the edns-key-tag list for any outgoing iterative queries for that
+   resolution chain to a union of the stub client's Key Tag(s) and the
+   validating recursive resolver's Key Tag(s).  For example, if the
+   recursive resolver's Key Tag list is (19036, 12345) and the stub's
+   list is (19036, 34567), the final edns-key-tag list would be (19036,
+   12345, 34567).
+
+   If the client included the DO and Checking Disabled (CD) bits, but
+   did not include the edns-key-tag option in the query, the validating
+   recursive resolver MAY include the option with its own Key Tag values
+   in full.
+
+   Validating recursive resolvers MUST NOT set the edns-key-tag option
+   in the final response to the stub client.
+
+5.2.2.  Non-validating Recursive Resolvers
+
+   Recursive resolvers that do not validate responses SHOULD copy the
+   edns-key-tag option seen in received queries, as they represent the
+   wishes of the validating downstream resolver that issued the original
+   query.
 
 
-6.  Security Considerations
+6.  Use By Responders
 
-   This document specifies a way for a client to signal its trust anchor
-   knowledge to a cache or server.  The signals are optional codes
-   contained in the OPT meta-RR used with EDNS.  The goal of these
-   options is to signal new trust anchor uptake in client code to allow
-   zone administrators to know when it is possible to complete a key
-   rollover in a DNSSEC-signed zone.
+   An authoritative name server receiving queries with the edns-key-tag
+   option MAY log or otherwise collect the Key Tag values to provide
+   information to the zone operator.
 
-   There is a possibility that an eavesdropper or server could infer the
-   validator in use by a client by the key tag list seen in queries.
-   This may allow an attacker to find validators using old, possibly
-   broken, keys.  It could also be used to identify the validator or
-   narrow down the possible validator implementations in use by a
-   client, which could have a known vulnerability that could be
-   exploited by the attacker.
+   A responder MUST NOT include the edns-key-tag option in any DNS
+   response.
 
-
-7.  Privacy Considerations
-
-   This proposal adds additional "signaling" to DNS queries in the form
-   of key tag values.  While key tag values themselves are not
-   considered private information, it may be possible for an
-   eavesdropper to use key tag values as a fingerprinting technique to
-   identify particular DNS validating clients.  This may be especially
-   true if the validator is configured with trust anchor for zones in
-   addition to the root zone.
-
-   A validating end-system resolver need not transmit the edns-key-tag
-   option in every applicable query.  Due to privacy concerns, such a
-   resolver MAY choose to transmit the edns-key-tag option for a subset
-   of queries (e.g., every 25th time), or by random chance with a
-   certain probability (e.g., 5%).
 
 
 
@@ -337,14 +337,78 @@ Wessels                  Expires October 3, 2015                [Page 6]
 Internet-Draft             EDNS Key Tag Option                April 2015
 
 
-8.  Acknowledgements
+7.  IANA Considerations
+
+   The IANA is directed to assign an EDNS0 option code for the edns-key-
+   tag option from the DNS EDNS0 Option Codes (OPT) registry as follows:
+
+           +-------+--------------+----------+-----------------+
+           | Value | Name         | Status   | Reference       |
+           +-------+--------------+----------+-----------------+
+           | [TBA] | edns-key-tag | Optional | [This document] |
+           +-------+--------------+----------+-----------------+
+
+
+8.  Security Considerations
+
+   This document specifies a way for a client to signal its trust anchor
+   knowledge to a cache or server.  The signals are optional codes
+   contained in the OPT meta-RR used with EDNS.  The goal of these
+   options is to signal new trust anchor uptake in client code to allow
+   zone administrators to know when it is possible to complete a key
+   rollover in a DNSSEC-signed zone.
+
+   There is a possibility that an eavesdropper or server could infer the
+   validator in use by a client by the Key Tag list seen in queries.
+   This may allow an attacker to find validators using old, possibly
+   broken, keys.  It could also be used to identify the validator or
+   narrow down the possible validator implementations in use by a
+   client, which could have a known vulnerability that could be
+   exploited by the attacker.
+
+
+9.  Privacy Considerations
+
+   This proposal adds additional "signaling" to DNS queries in the form
+   of Key Tag values.  While Key Tag values themselves are not
+   considered private information, it may be possible for an
+   eavesdropper to use Key Tag values as a fingerprinting technique to
+   identify particular DNS validating clients.  This may be especially
+   true if the validator is configured with trust anchor for zones in
+   addition to the root zone.
+
+   A validating end-system resolver need not transmit the edns-key-tag
+   option in every applicable query.  Due to privacy concerns, such a
+   resolver MAY choose to transmit the edns-key-tag option for a subset
+   of queries (e.g., every 25th time), or by random chance with a
+   certain probability (e.g., 5%).
+
+   Implementations of this specification MAY be administratively
+   configured to only transmit the edns-key-tag option for certain
+
+
+
+Wessels                  Expires October 3, 2015                [Page 7]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
+   zones.  For example, the software's configuration file may specify a
+   list of zones for which use of the option is allowed or denied.
+   Since the primary motivation for this specification is to provide
+   operational measurement data for root zone key rollovers, it is
+   RECOMMENDED that implementations at least include the edns-key-tag
+   option for root zone DNSKEY queries.
+
+
+10.  Acknowledgments
 
    This document was inspired by and borrows heavily from [RFC6975].
 
 
-9.  References
+11.  References
 
-9.1.  Normative References
+11.1.  Normative References
 
    [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
               STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,
@@ -377,21 +441,21 @@ Internet-Draft             EDNS Key Tag Option                April 2015
    [RFC6891]  Damas, J., Graff, M., and P. Vixie, "Extension Mechanisms
               for DNS (EDNS(0))", STD 75, RFC 6891, DOI 10.17487/
               RFC6891, April 2013,
+
+
+
+Wessels                  Expires October 3, 2015                [Page 8]
+
+Internet-Draft             EDNS Key Tag Option                April 2015
+
+
               <http://www.rfc-editor.org/info/rfc6891>.
 
-9.2.  Informative References
+11.2.  Informative References
 
    [RFC5011]  StJohns, M., "Automated Updates of DNS Security (DNSSEC)
               Trust Anchors", STD 74, RFC 5011, DOI 10.17487/RFC5011,
               September 2007, <http://www.rfc-editor.org/info/rfc5011>.
-
-
-
-
-Wessels                  Expires October 3, 2015                [Page 7]
-
-Internet-Draft             EDNS Key Tag Option                April 2015
-
 
    [RFC6975]  Crocker, S. and S. Rose, "Signaling Cryptographic
               Algorithm Understanding in DNS Security Extensions
@@ -436,13 +500,5 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-Wessels                  Expires October 3, 2015                [Page 8]
+Wessels                  Expires October 3, 2015                [Page 9]
 
