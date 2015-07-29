@@ -8,7 +8,7 @@ Expires: January 30, 2016
 
 
                         The EDNS Key Tag Option
-                           draft-edns-key-tag
+                       draft-wessels-edns-key-tag
 
 Abstract
 
