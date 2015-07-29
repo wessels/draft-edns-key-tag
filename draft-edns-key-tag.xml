@@ -380,6 +380,19 @@ An alternate method (rfc include) is described in the references. -->
         use by a client, which could have a known vulnerability that could be
         exploited by the attacker.
       </t>
+      <t>
+	Consumers of data collected from the edns-key-tag option
+	are advised that provided Key Tag values might be "made up"
+	by some DNS clients with malicious or at least mischievous
+	intentions.
+      </t>
+      <t>
+	DNSSEC does not require keys in a zone to have unique Key
+	Tags.  During a rollover there is a small possibility that
+	an old key and a new key will have identical Key Tag values.
+	Zone operators relying on the edns-key-tag mechanism SHOULD
+	take care to ensure that new keys have unique Key Tag values.
+      </t>
     </section>
 
     <section title="Privacy Considerations" anchor="privacy">
@@ -417,7 +430,8 @@ An alternate method (rfc include) is described in the references. -->
     <section anchor="Acknowledgments" title="Acknowledgments">
       <t>
 	This document was inspired by and borrows heavily from <xref target="RFC6975"/>
-	by Scott Rose and Steve Crocker.
+	by Scott Rose and Steve Crocker.  The author would like to
+	thank to Casey Deccio and Burt Kalisky for early feedback.
       </t>
     </section>
 

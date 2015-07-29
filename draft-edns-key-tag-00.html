@@ -144,8 +144,8 @@
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Internet Engineering Task Force</td><td class="header">D. Wessels</td></tr>
 <tr><td class="header">Internet-Draft</td><td class="header">Verisign Labs</td></tr>
-<tr><td class="header">Intended status: Standards Track</td><td class="header">July 22, 2015</td></tr>
-<tr><td class="header">Expires: January 23, 2016</td><td class="header">&nbsp;</td></tr>
+<tr><td class="header">Intended status: Standards Track</td><td class="header">July 29, 2015</td></tr>
+<tr><td class="header">Expires: January 30, 2016</td><td class="header">&nbsp;</td></tr>
 </table></td></tr></table>
 <h1><br />The EDNS Key Tag Option<br />draft-edns-key-tag</h1>
 
@@ -178,7 +178,7 @@ and may be updated, replaced, or obsoleted by other documents at any time.
 It is inappropriate to use Internet-Drafts as reference material or to cite
 them other than as &ldquo;work in progress.&rdquo;</p>
 <p>
-This Internet-Draft will expire on January 23, 2016.</p>
+This Internet-Draft will expire on January 30, 2016.</p>
 
 <h3>Copyright Notice</h3>
 <p>
@@ -564,6 +564,21 @@ Security Considerations</h3>
         exploited by the attacker.
       
 </p>
+<p>
+	Consumers of data collected from the edns-key-tag option
+	are advised that provided Key Tag values might be "made up"
+	by some DNS clients with malicious or at least mischievous
+	intentions.
+      
+</p>
+<p>
+	DNSSEC does not require keys in a zone to have unique Key
+	Tags.  During a rollover there is a small possibility that
+	an old key and a new key will have identical Key Tag values.
+	Zone operators relying on the edns-key-tag mechanism SHOULD
+	take care to ensure that new keys have unique Key Tag values.
+      
+</p>
 <a name="privacy"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.9"></a><h3>9.&nbsp;
@@ -608,7 +623,8 @@ Acknowledgments</h3>
 
 <p>
 	This document was inspired by and borrows heavily from <a class='info' href='#RFC6975'>[RFC6975]<span> (</span><span class='info'>Crocker, S. and S. Rose, &ldquo;Signaling Cryptographic Algorithm Understanding in DNS Security Extensions (DNSSEC),&rdquo; July&nbsp;2013.</span><span>)</span></a>
-	by Scott Rose and Steve Crocker.
+	by Scott Rose and Steve Crocker.  The author would like to
+	thank to Casey Deccio and Burt Kalisky for early feedback.
       
 </p>
 <a name="rfc.references"></a><br /><hr />
