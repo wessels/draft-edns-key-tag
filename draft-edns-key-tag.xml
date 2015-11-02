@@ -308,6 +308,12 @@ An alternate method (rfc include) is described in the references. -->
 	    final edns-key-tag list would be (19036, 12345, 34567).
 	  </t>
 	  <t>
+	    A validating recursive resolver MAY combine stub client Key Tag values
+	    from multiple incoming queries into a single outgoing query.  It is
+	    RECOMMENDED that implementations place reasonable limits on the number of
+	    Key Tags to include in the outgoing edns-key-tag option.
+	  </t>
+	  <t>
 	    If the client included the DO and Checking Disabled (CD) bits, but
 	    did not include the edns-key-tag option in the query, the
 	    validating recursive resolver MAY include the option with its own
