@@ -391,6 +391,10 @@ An alternate method (rfc include) is described in the references. -->
 	are advised that provided Key Tag values might be "made up"
 	by some DNS clients with malicious or at least mischievous
 	intentions.
+	For example, an attacker with sufficient
+	resources might try to generate large numbers of queries
+	including only old Key Tag values, with the intention of
+	delaying the completion of a key rollover.
       </t>
       <t>
 	DNSSEC does not require keys in a zone to have unique Key
