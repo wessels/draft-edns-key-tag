@@ -373,8 +373,8 @@ An alternate method (rfc include) is described in the references. -->
         This document specifies a way for a client to signal its trust anchor
         knowledge to a cache or server.  The signals
         are optional codes contained in the OPT meta-RR used with EDNS.  The
-        goal of these options is to signal new trust anchor uptake in client
-        code to allow zone administrators to know when it is possible to
+        goal of these options is to signal new trust anchor uptake in clients
+        to allow zone administrators to know when it is possible to
         complete a key rollover in a DNSSEC-signed zone.
       </t>
       <t>
