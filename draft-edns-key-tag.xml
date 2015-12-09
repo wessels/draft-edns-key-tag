@@ -5,8 +5,6 @@
 There has to be one entity for each item to be referenced. 
 An alternate method (rfc include) is described in the references. -->
 <!ENTITY RFC5966 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5966.xml">
-<!ENTITY I-D.ietf-tcpm-fastopen SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tcpm-fastopen">
-<!ENTITY I-D.draft-ietf-dnsop-edns-tcp-keepalive SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-dnsop-edns-tcp-keepalive-00.xml">
 <!ENTITY RFC0768 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0768.xml">
 <!ENTITY RFC0793 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml">
 <!ENTITY RFC1034 PUBLIC '' "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1034.xml">
@@ -44,7 +42,7 @@ An alternate method (rfc include) is described in the references. -->
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-wessels-edns-key-tag-00" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-dnsop-edns-key-tag-00" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
   ipr values: full3667, noModification3667, noDerivatives3667
   you can add the attributes updates="NNNN" and obsoletes="NNNN" 
@@ -77,7 +75,7 @@ An alternate method (rfc include) is described in the references. -->
       </address>
     </author>
 
-    <date month="July" year="2015" />
+    <date month="December" year="2015" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
           in the current day for you. If only the current year is specified, xml2rfc will fill 
