@@ -3,12 +3,12 @@
 
 Internet Engineering Task Force                               D. Wessels
 Internet-Draft                                             Verisign Labs
-Intended status: Standards Track                           July 29, 2015
-Expires: January 30, 2016
+Intended status: Standards Track                        December 9, 2015
+Expires: June 11, 2016
 
 
                         The EDNS Key Tag Option
-                     draft-wessels-edns-key-tag-00
+                    draft-ietf-dnsop-edns-key-tag-00
 
 Abstract
 
@@ -37,7 +37,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 30, 2016.
+   This Internet-Draft will expire on June 11, 2016.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Wessels                 Expires January 30, 2016                [Page 1]
+Wessels                   Expires June 11, 2016                 [Page 1]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
    to this document.  Code Components extracted from this document must
@@ -79,7 +79,7 @@ Table of Contents
    6.  Use By Responders . . . . . . . . . . . . . . . . . . . . . . . 6
    7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
    8.  Security Considerations . . . . . . . . . . . . . . . . . . . . 7
-   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . . . 7
+   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . . . 8
    10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . 8
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
      11.1. Normative References  . . . . . . . . . . . . . . . . . . . 8
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Wessels                 Expires January 30, 2016                [Page 2]
+Wessels                   Expires June 11, 2016                 [Page 2]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 
-Wessels                 Expires January 30, 2016                [Page 3]
+Wessels                   Expires June 11, 2016                 [Page 3]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
    Trust Anchor:  A configured DNSKEY RR or DS RR hash of a DNSKEY RR.
@@ -220,9 +220,9 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 
-Wessels                 Expires January 30, 2016                [Page 4]
+Wessels                   Expires June 11, 2016                 [Page 4]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
    it wishes to receive DNSSEC RRs in the response.
@@ -276,9 +276,9 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
 
 
-Wessels                 Expires January 30, 2016                [Page 5]
+Wessels                   Expires June 11, 2016                 [Page 5]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 5.1.2.  Non-validating Stub Resolvers
@@ -300,6 +300,11 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
    recursive resolver's Key Tag list is (19036, 12345) and the stub's
    list is (19036, 34567), the final edns-key-tag list would be (19036,
    12345, 34567).
+
+   A validating recursive resolver MAY combine stub client Key Tag
+   values from multiple incoming queries into a single outgoing query.
+   It is RECOMMENDED that implementations place reasonable limits on the
+   number of Key Tags to include in the outgoing edns-key-tag option.
 
    If the client included the DO and Checking Disabled (CD) bits, but
    did not include the edns-key-tag option in the query, the validating
@@ -324,17 +329,15 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
    information to the zone operator.
 
    A responder MUST NOT include the edns-key-tag option in any DNS
-   response.
 
 
 
-
-
-
-
-Wessels                 Expires January 30, 2016                [Page 6]
+Wessels                   Expires June 11, 2016                 [Page 6]
 
-Internet-Draft             EDNS Key Tag Option                 July 2015
+Internet-Draft             EDNS Key Tag Option             December 2015
+
+
+   response.
 
 
 7.  IANA Considerations
@@ -354,9 +357,9 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
    This document specifies a way for a client to signal its trust anchor
    knowledge to a cache or server.  The signals are optional codes
    contained in the OPT meta-RR used with EDNS.  The goal of these
-   options is to signal new trust anchor uptake in client code to allow
-   zone administrators to know when it is possible to complete a key
-   rollover in a DNSSEC-signed zone.
+   options is to signal new trust anchor uptake in clients to allow zone
+   administrators to know when it is possible to complete a key rollover
+   in a DNSSEC-signed zone.
 
    There is a possibility that an eavesdropper or server could infer the
    validator in use by a client by the Key Tag list seen in queries.
@@ -368,13 +371,26 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
 
    Consumers of data collected from the edns-key-tag option are advised
    that provided Key Tag values might be "made up" by some DNS clients
-   with malicious or at least mischievous intentions.
+   with malicious or at least mischievous intentions.  For example, an
+   attacker with sufficient resources might try to generate large
+   numbers of queries including only old Key Tag values, with the
+   intention of delaying the completion of a key rollover.
 
    DNSSEC does not require keys in a zone to have unique Key Tags.
    During a rollover there is a small possibility that an old key and a
    new key will have identical Key Tag values.  Zone operators relying
    on the edns-key-tag mechanism SHOULD take care to ensure that new
    keys have unique Key Tag values.
+
+
+
+
+
+
+
+Wessels                   Expires June 11, 2016                 [Page 7]
+
+Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 9.  Privacy Considerations
@@ -385,14 +401,6 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
    eavesdropper to use Key Tag values as a fingerprinting technique to
    identify particular DNS validating clients.  This may be especially
    true if the validator is configured with trust anchor for zones in
-
-
-
-Wessels                 Expires January 30, 2016                [Page 7]
-
-Internet-Draft             EDNS Key Tag Option                 July 2015
-
-
    addition to the root zone.
 
    A validating end-system resolver need not transmit the edns-key-tag
@@ -433,6 +441,14 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/
               RFC2119, March 1997,
+
+
+
+Wessels                   Expires June 11, 2016                 [Page 8]
+
+Internet-Draft             EDNS Key Tag Option             December 2015
+
+
               <http://www.rfc-editor.org/info/rfc2119>.
 
    [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
@@ -441,14 +457,6 @@ Internet-Draft             EDNS Key Tag Option                 July 2015
               <http://www.rfc-editor.org/info/rfc4033>.
 
    [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
-
-
-
-Wessels                 Expires January 30, 2016                [Page 8]
-
-Internet-Draft             EDNS Key Tag Option                 July 2015
-
-
               Rose, "Resource Records for the DNS Security Extensions",
               RFC 4034, DOI 10.17487/RFC4034, March 2005,
               <http://www.rfc-editor.org/info/rfc4034>.
@@ -492,13 +500,5 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-Wessels                 Expires January 30, 2016                [Page 9]
+Wessels                   Expires June 11, 2016                 [Page 9]
 

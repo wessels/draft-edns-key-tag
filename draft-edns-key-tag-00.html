@@ -144,10 +144,10 @@
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Internet Engineering Task Force</td><td class="header">D. Wessels</td></tr>
 <tr><td class="header">Internet-Draft</td><td class="header">Verisign Labs</td></tr>
-<tr><td class="header">Intended status: Standards Track</td><td class="header">July 29, 2015</td></tr>
-<tr><td class="header">Expires: January 30, 2016</td><td class="header">&nbsp;</td></tr>
+<tr><td class="header">Intended status: Standards Track</td><td class="header">December 9, 2015</td></tr>
+<tr><td class="header">Expires: June 11, 2016</td><td class="header">&nbsp;</td></tr>
 </table></td></tr></table>
-<h1><br />The EDNS Key Tag Option<br />draft-wessels-edns-key-tag-00</h1>
+<h1><br />The EDNS Key Tag Option<br />draft-ietf-dnsop-edns-key-tag-00</h1>
 
 <h3>Abstract</h3>
 
@@ -178,7 +178,7 @@ and may be updated, replaced, or obsoleted by other documents at any time.
 It is inappropriate to use Internet-Drafts as reference material or to cite
 them other than as &ldquo;work in progress.&rdquo;</p>
 <p>
-This Internet-Draft will expire on January 30, 2016.</p>
+This Internet-Draft will expire on June 11, 2016.</p>
 
 <h3>Copyright Notice</h3>
 <p>
@@ -481,6 +481,13 @@ Validating Recursive Resolvers</h3>
 	  
 </p>
 <p>
+	    A validating recursive resolver MAY combine stub client Key Tag values
+	    from multiple incoming queries into a single outgoing query.  It is
+	    RECOMMENDED that implementations place reasonable limits on the number of
+	    Key Tags to include in the outgoing edns-key-tag option.
+	  
+</p>
+<p>
 	    If the client included the DO and Checking Disabled (CD) bits, but
 	    did not include the edns-key-tag option in the query, the
 	    validating recursive resolver MAY include the option with its own
@@ -549,8 +556,8 @@ Security Considerations</h3>
         This document specifies a way for a client to signal its trust anchor
         knowledge to a cache or server.  The signals
         are optional codes contained in the OPT meta-RR used with EDNS.  The
-        goal of these options is to signal new trust anchor uptake in client
-        code to allow zone administrators to know when it is possible to
+        goal of these options is to signal new trust anchor uptake in clients
+        to allow zone administrators to know when it is possible to
         complete a key rollover in a DNSSEC-signed zone.
       
 </p>
@@ -569,6 +576,10 @@ Security Considerations</h3>
 	are advised that provided Key Tag values might be "made up"
 	by some DNS clients with malicious or at least mischievous
 	intentions.
+	For example, an attacker with sufficient
+	resources might try to generate large numbers of queries
+	including only old Key Tag values, with the intention of
+	delaying the completion of a key rollover.
       
 </p>
 <p>
