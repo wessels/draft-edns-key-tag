@@ -42,7 +42,7 @@ An alternate method (rfc include) is described in the references. -->
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-ietf-dnsop-edns-key-tag-00" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-dnsop-edns-key-tag-01" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
   ipr values: full3667, noModification3667, noDerivatives3667
   you can add the attributes updates="NNNN" and obsoletes="NNNN" 
@@ -61,17 +61,32 @@ An alternate method (rfc include) is described in the references. -->
     <!-- Another author who claims to be an editor -->
 
     <author fullname="Duane Wessels" initials="D." surname="Wessels">
-      <organization>Verisign Labs</organization>
+      <organization>Verisign</organization>
       <address>
         <postal>
           <street>12061 Bluemont Way</street>
           <city>Reston</city>
           <region>VA</region>
           <code>20190</code>
+	  <country>United States</country>
         </postal>
         <phone>+1 703 948-3200</phone>
         <email>dwessels@verisign.com</email>
         <uri>http://verisigninc.com</uri>
+      </address>
+    </author>
+
+    <author fullname="Warren Kumari" initials="W." surname="Kumari">
+      <organization>Google</organization>
+      <address>
+        <postal>
+          <street>1600 Amphitheatre Parkway</street>
+          <city>Mountain View</city>
+          <region>CA</region>
+          <code>94043</code>
+	  <country>United States</country>
+        </postal>
+        <email>warren@kumari.net</email>
       </address>
     </author>
 
@@ -151,8 +166,8 @@ An alternate method (rfc include) is described in the references. -->
 	acceptance and use of new trust anchors and key signing keys (KSKs).
 	This signaling option can be used by zone administrators as a gauge
 	to measure the successful deployment of new keys.  This is of particular
-	interest for the DNS root zone in the event of key and/or algorithm rollovers which
-	relies on <xref target="RFC5011"/> to automatically update a validating end-system's
+	interest for the DNS root zone in the event of key and/or algorithm rollovers that
+	rely on <xref target="RFC5011"/> to automatically update a validating end-system's
 	trust anchor.
       </t>
       <t>
@@ -405,7 +420,7 @@ An alternate method (rfc include) is described in the references. -->
 
     <section title="Privacy Considerations" anchor="privacy">
       <t>
-	This proposal adds additional "signaling" to DNS queries
+	This proposal adds additional, optional "signaling" to DNS queries
 	in the form of Key Tag values.  While Key Tag values
 	themselves are not considered private information, it may
 	be possible for an eavesdropper to use Key Tag values as a
@@ -438,7 +453,7 @@ An alternate method (rfc include) is described in the references. -->
     <section anchor="Acknowledgments" title="Acknowledgments">
       <t>
 	This document was inspired by and borrows heavily from <xref target="RFC6975"/>
-	by Scott Rose and Steve Crocker.  The author would like to
+	by Scott Rose and Steve Crocker.  The authors would like to
 	thank to Casey Deccio and Burt Kalisky for early feedback.
       </t>
     </section>
@@ -460,6 +475,22 @@ An alternate method (rfc include) is described in the references. -->
     &RFC5011;
     &RFC6975;
     </references>
+
+    <section title="Changes / Author Notes.">
+      <t>[RFC Editor: Please remove this section before publication]</t>
+
+      <t>From -00 to -01:</t>
+
+      <t>
+	<list style="symbols">
+          <t>
+	  </t>
+
+          <t>
+	    Added Warren as coauthor.
+	  </t>
+        </list></t>
+    </section>
 
   </back>
 </rfc>
