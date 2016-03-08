@@ -519,6 +519,10 @@ An alternate method (rfc include) is described in the references. -->
       <t>
 	<list style="symbols">
           <t>
+	    Changed how a recursive should combine a stub's key tag
+	    values with its own.  Previously it was to be a union
+	    of key tag values.  Now it is a separate instance of
+	    the option code for recursive and stub.
 	  </t>
 
           <t>
