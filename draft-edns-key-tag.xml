@@ -181,6 +181,7 @@ An alternate method (rfc include) is described in the references. -->
 	MUST be ignored."  It has been proposed to encode key tags
 	in query names instead.  The authors are willing to consider
 	this alternative if so guided by the working group. ]
+      </t>
       <t>
 	This draft does not seek to introduce another process for rolling keys or updating
 	trust anchors.
