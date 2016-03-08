@@ -454,7 +454,15 @@ An alternate method (rfc include) is described in the references. -->
       <t>
 	This document was inspired by and borrows heavily from <xref target="RFC6975"/>
 	by Scott Rose and Steve Crocker.  The authors would like to
-	thank to Casey Deccio and Burt Kalisky for early feedback.
+	thank
+	Casey Deccio,
+	Burt Kalisky,
+	Bob Harold,
+	Tim Wicinski,
+	Suzanne Woolf,
+	and other members of
+	the dnsop working group
+	for their input.
       </t>
     </section>
 
