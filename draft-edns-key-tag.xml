@@ -175,12 +175,16 @@ An alternate method (rfc include) is described in the references. -->
 	working group to use EDNS0 to convey the key tags upstream.
 	In particular there is a concern that middleboxes might
 	block messages with unknown option codes.  Also since EDNS0
-	is hop-by-hop, middleboxes won't necessarily know which
-	option codes to forward or hold back.  RFC6891 says:
-	"OPTION-CODE values not understood by a responder or requestor
-	MUST be ignored."  It has been proposed to encode key tags
-	in query names instead.  The authors are willing to consider
-	this alternative if so guided by the working group. ]
+	is hop-by-hop, middleboxes and un-upgraded recursives won't
+	necessarily know whether or not the edns-key-tag options
+	should be forwarded.  RFC6891 says: "OPTION-CODE values not
+	understood by a responder or requestor MUST be ignored."
+	draft-wkumari-dnsop-trust-management proposed encoding this
+	information in query names, but sufficient issues with this
+	approach were discovered that the authors of the above
+	decided to abandon this work. The authors of
+	draft-ietf-dnsop-edns-key-tag are willing to consider this
+	alternative if so guided by the working group. ]
       </t>
       <t>
 	This draft does not seek to introduce another process for rolling keys or updating
