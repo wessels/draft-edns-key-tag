@@ -4,8 +4,8 @@
 Internet Engineering Task Force                               D. Wessels
 Internet-Draft                                                  Verisign
 Intended status: Standards Track                               W. Kumari
-Expires: June 3, 2016                                             Google
-                                                           December 2015
+Expires: September 10, 2016                                       Google
+                                                           March 9, 2016
 
 
                         The EDNS Key Tag Option
@@ -38,11 +38,11 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 3, 2016.
+   This Internet-Draft will expire on September 10, 2016.
 
 Copyright Notice
 
-   Copyright (c) 2015 IETF Trust and the persons identified as the
+   Copyright (c) 2016 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 1]
+Wessels & Kumari       Expires September 10, 2016               [Page 1]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
    carefully, as they describe your rights and restrictions with respect
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 2]
+Wessels & Kumari       Expires September 10, 2016               [Page 2]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 3]
+Wessels & Kumari       Expires September 10, 2016               [Page 3]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
 2.  Requirements Terminology
@@ -220,9 +220,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 4]
+Wessels & Kumari       Expires September 10, 2016               [Page 4]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
    OPTION-CODE:   The EDNS0 option code assigned to edns-key-tag, [TBD].
@@ -276,9 +276,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 5]
+Wessels & Kumari       Expires September 10, 2016               [Page 5]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
    validation.
@@ -332,9 +332,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 6]
+Wessels & Kumari       Expires September 10, 2016               [Page 6]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
 5.2.2.  Non-validating Recursive Resolvers
@@ -388,9 +388,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 7]
+Wessels & Kumari       Expires September 10, 2016               [Page 7]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
    that provided Key Tag values might be "made up" by some DNS clients
@@ -444,9 +444,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 8]
+Wessels & Kumari       Expires September 10, 2016               [Page 8]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
 11.1.  Normative References
@@ -500,9 +500,9 @@ Internet-Draft             EDNS Key Tag Option             December 2015
 
 
 
-Wessels & Kumari          Expires June 3, 2016                  [Page 9]
+Wessels & Kumari       Expires September 10, 2016               [Page 9]
 
-Internet-Draft             EDNS Key Tag Option             December 2015
+Internet-Draft             EDNS Key Tag Option                March 2016
 
 
 Appendix A.  Changes / Author Notes.
@@ -556,5 +556,5 @@ Authors' Addresses
 
 
 
-Wessels & Kumari          Expires June 3, 2016                 [Page 10]
+Wessels & Kumari       Expires September 10, 2016              [Page 10]
 
