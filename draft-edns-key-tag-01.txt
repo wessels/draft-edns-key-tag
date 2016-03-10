@@ -147,20 +147,20 @@ Internet-Draft             EDNS Key Tag Option             December 2015
    [ FOR WG DISCUSSION: There is some reluctance within the working
    group to use EDNS0 to convey the key tags upstream.  In particular
    there is a concern that middleboxes might block messages with unknown
-   option codes.  Also since EDNS0 is hop-by-hop, middleboxes won't
-   necessarily know which option codes to forward or hold back.  RFC6891
-   says: "OPTION-CODE values not understood by a responder or requestor
-   MUST be ignored."  It has been proposed to encode key tags in query
-   names instead.  The authors are willing to consider this alternative
-   if so guided by the working group. ]
+   option codes.  Also since EDNS0 is hop-by-hop, middleboxes and un-
+   upgraded recursives won't necessarily know whether or not the edns-
+   key-tag options should be forwarded.  RFC6891 says: "OPTION-CODE
+   values not understood by a responder or requestor MUST be ignored."
+   draft-wkumari-dnsop-trust-management proposed encoding this
+   information in query names, but sufficient issues with this approach
+   were discovered that the authors of the above decided to abandon this
+   work.  The authors of draft-ietf-dnsop-edns-key-tag are willing to
+   consider this alternative if so guided by the working group. ]
 
    This draft does not seek to introduce another process for rolling
    keys or updating trust anchors.  Rather, this document specifies a
    means by which a client query can signal the set of keys that a
    client uses for DNSSEC validation.
-
-
-
 
 
 
@@ -511,7 +511,10 @@ Appendix A.  Changes / Author Notes.
 
    From -00 to -01:
 
-   o
+   o  Changed how a recursive should combine a stub's key tag values
+      with its own.  Previously it was to be a union of key tag values.
+      Now it is a separate instance of the option code for recursive and
+      stub.
 
    o  Added Warren as coauthor.
 
@@ -536,9 +539,6 @@ Authors' Addresses
    United States
 
    Email: warren@kumari.net
-
-
-
 
 
 
