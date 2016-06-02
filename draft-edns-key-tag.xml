@@ -54,7 +54,7 @@ An alternate method (rfc include) is described in the references. -->
     <!-- The abbreviated title is used in the page header - it is only necessary if the
     full title is longer than 39 characters -->
 
-    <title abbrev="EDNS Key Tag Option">The EDNS Key Tag Option</title>
+    <title abbrev="DNSSEC Key Tag Signalling">Signalling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)</title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
 
@@ -90,7 +90,14 @@ An alternate method (rfc include) is described in the references. -->
       </address>
     </author>
 
-    <date month="March" year="2016" />
+    <author fullname="Paul Hoffman" initials="P." surname="Hoffman">
+      <organization>ICANN</organization>
+      <address>
+        <email>paul.hoffman@icann.org</email>
+      </address>
+    </author>
+
+    <date month="June" year="2016" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
           in the current day for you. If only the current year is specified, xml2rfc will fill
@@ -111,14 +118,15 @@ An alternate method (rfc include) is described in the references. -->
     which is used by the RFC Editor as a nod to the history of the IETF. -->
 
     <keyword>DNS</keyword>
-    <keyword>TCP/IP</keyword>
-    <keyword>transport</keyword>
+    <keyword>DNSSEC</keyword>
+    <keyword>Key Tag</keyword>
+    <keyword>Trust Anchor</keyword>
     <!-- Keywords will be incorporated into HTML output
     files in a meta tag but they have no effect on text or nroff
     output. If you submit your draft to the RFC Editor, the
     keywords will be used for the search engine. -->
 
-<!-- text liberally borrowed from RFC 6975 -->
+<!-- text originally liberally borrowed from RFC 6975 -->
 
     <abstract>
       <t>
@@ -129,7 +137,7 @@ An alternate method (rfc include) is described in the references. -->
 	anchor and proceeding down to a particular node in the DNS.
 	This document specifies a way for validating end-system
 	resolvers to signal to a server which keys are referenced in
-	their chain-of-trust.  The extensions allow zone administrators
+	their chain-of-trust.  The data from such signalling allow zone administrators
 	to monitor the progress of rollovers in a DNSSEC-signed zone.
       </t>
     </abstract>
@@ -154,43 +162,27 @@ An alternate method (rfc include) is described in the references. -->
 	value is equal to the Key Tag of the DNSKEY RR to which it refers.
       </t>
       <t>
-	This draft sets out to specify a way for validating end-system
-	resolvers to tell a server in a DNS query which DNSSEC key(s) they
-	would use to validate the expected response.  This is done using the
-	new EDNS option specified below in <xref target="option-format"/> for use in the
-	OPT meta-RR <xref target="RFC6891"/>.
-	This new EDNS option code is OPTIONAL to implement and use.
+	This draft specifies a way for validating DNS
+	resolvers to tell the operator of a zone which DNSSEC key(s) they
+	would use to validate responses from that zone.  This is done by periodically sending special "key tag queries"
+	to a server authoritative for the zone.  The key tag query format is
+	specified below in <xref target="query-format"/>.
+	This new signalling mechanism is OPTIONAL to implement and use.
       </t>
       <t>
-	This proposed EDNS option serves to measure the
-	acceptance and use of new trust anchors and key signing keys (KSKs).
-	This signaling option can be used by zone administrators as a gauge
+	Key tag queries serve to measure the
+	acceptance and use of new DNSSEC trust anchors and key signing keys (KSKs).
+	This signaling data can be used by zone administrators as a gauge
 	to measure the successful deployment of new keys.  This is of particular
 	interest for the DNS root zone in the event of key and/or algorithm rollovers that
-	rely on <xref target="RFC5011"/> to automatically update a validating end-system's
+	rely on <xref target="RFC5011"/> to automatically update a validating DNS resolver's
 	trust anchor.
       </t>
       <t>
-	[ FOR WG DISCUSSION: There is some reluctance within the
-	working group to use EDNS0 to convey the key tags upstream.
-	In particular there is a concern that middleboxes might
-	block messages with unknown option codes.  Also since EDNS0
-	is hop-by-hop, middleboxes and un-upgraded recursives won't
-	necessarily know whether or not the edns-key-tag options
-	should be forwarded.  RFC6891 says: "OPTION-CODE values not
-	understood by a responder or requestor MUST be ignored."
-	draft-wkumari-dnsop-trust-management proposed encoding this
-	information in query names, but sufficient issues with this
-	approach were discovered that the authors of the above
-	decided to abandon this work. The authors of
-	draft-ietf-dnsop-edns-key-tag are willing to consider this
-	alternative if so guided by the working group. ]
-      </t>
-      <t>
-	This draft does not seek to introduce another process for rolling keys or updating
+	This document does not introduce new processes for rolling keys or updating
 	trust anchors.
-	Rather, this document specifies a means by which a client
-	query can signal the set of keys that a client uses for DNSSEC validation.
+	Rather, it specifies a means by which a DNS
+	queriy can signal the set of keys that a client uses for DNSSEC validation.
       </t>
     </section>
     <section title="Requirements Terminology">
@@ -227,184 +219,124 @@ An alternate method (rfc include) is described in the references. -->
       </t>
     </section>
 
-    <section title="Option Format" anchor="option-format">
-      <t>The edns-key-tag option is encoded as follows:</t>
-        <figure><artwork align="left"><![CDATA[
-0                       8                      16
-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-|                  OPTION-CODE                  |
-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-|                 OPTION-LENGTH                 |
-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-|                    KEY-TAG                    |
-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-|                      ...                      /
-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-]]></artwork></figure>
-        <t>where:
-
-          <list style="hanging">
-            <t hangText="OPTION-CODE: ">The EDNS0 option code
-              assigned to edns-key-tag, [TBD].</t>
-
-            <t hangText="OPTION-LENGTH: ">The value 2 x number of key-tag values present.</t>
-
-            <t hangText="KEY-TAG: ">One or more 16-bit Key Tag values (<xref target="RFC4034"/>, Appendix B).</t>
-          </list>
-        </t>
-
+    <section title="Query Format" anchor="query-format">
+      <t>
+	A key tag query consists of a standard DNS query of type NULL
+        and of class IN <xref target="RFC1035"/>.
+      </t>
+      <t>
+	The first component of the query name is the string "_ta-" followed
+	by a hypen-separated list of hexadecimal-encoded Key Tag values.
+	The zone name corresponding to the trust anchor is appended to this
+	first component.
+      </t>
+      <t>
+	For example, a validating DNS resolver that has a single root
+	zone trust anchor with key tag 19036 (decimal) would originate
+	a query of the form QTYPE=NULL, QCLASS=IN, QNAME=_ta-4a5c.
+      </t>
+      <t>
+	A validating DNS resolver that has a three trust anchors for the
+	example.com zone with key tags 31589, 43547, 31406 (decimal)
+	would originate a query of the form QTYPE=NULL, QCLASS=IN,
+	QNAME=_ta-7b65-aa1b-7aa3.example.com.
+      </t>
+	
     </section>
 
     <section title="Use By Queriers">
       <t>
-	A validating end-system resolver sets the edns-key-tag
-	option in the OPT meta-RR when sending a
-	DNSKEY query.  The validating end-system resolver SHOULD also set the DNSSEC
-	OK bit <xref target="RFC4034"/> to indicate that it wishes to receive DNSSEC RRs in
-	the response.
+	A validating DNS resolver (stub or recursive) SHOULD originate a key tag query
+	whenever it also originates a DNSKEY query for a configured Trust Anchor zone.
+	In other words, the need to issue a DNSKEY query is also the trigger to issue
+	a key tag query.
       </t>
       <t>
-	A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY queries.
+	The value(s) included in the key tag query represent the
+	Key Tag(s) of the Trust Anchor that will be used to validate the expected DNSKEY response.
       </t>
       <t>
-	The KEY-TAG value(s) included in the edns-key-tag option represent the
-	Key Tag of the Trust Anchor or DNSKEY RR that will be used to validate the expected response.
-	When the client sends a DNSKEY query, the edns-key-tag option represents
-	the Key Tag(s) of the KSK(s) of the zone for which the server is authoritative.
-	A validating end-system resolver learns the Key Tag(s) of the KSK(s) from the zone's
-	DS record(s) (found in the parent), or from a configured trust anchor.
+	A DNS validating resolver SHOULD NOT originate key tag queries when also originating
+	DNSKEY queries for a non-Trust Anchor zones.
       </t>
       <t>
-	A DNS client SHOULD include the edns-key-tag option when issuing a DNSKEY
-	query for a zone corresponding to a configured Trust Anchor.
+	A non-validating DNS resolver MUST NOT originate key tag queries.
       </t>
       <t>
-	A DNS client MAY include the edns-key-tag option when issuing
-	a DNSKEY query for a non-Trust Anchor zone (i.e., Key Tags
-	learned via DS records).  Since some DNSSEC validators
-	implement bottom-up validation, non-Trust Anchor Key Tags
-	zone might not be known at the time of the query.  Such a
-	validator can include the edns-key-tag option based on
-	previously cached data.
-      </t>
-      <t>
-	A DNS client MUST NOT include Key Tag(s) for keys which are
-	not learned via either configured Trust Anchor or DS records.
-      </t>
-      <t>
-	Since the edns-key-tag option is only set in the query, if
-	a client sees these options in the response, no action needs to be
-	taken and the client MUST ignore the option values.
+	DNS resolvers with caches SHOULD cache and reuse a response to a key tag query
+	just as it would any other response.
       </t>
 
-      <section title="Stub Resolvers">
-        <t>
-	  Typically, stub resolvers rely on an upstream recursive server (or
-	  cache) to provide a response.  Optimal setting of the edns-key-tag
-	  option depends on whether the stub resolver elects to
-	  perform its own validation.
-	</t>
-	<section title="Validating Stub Resolvers">
-	  <t>
-	    A validating stub resolver sets the DNSSEC OK (DO) bit <xref target="RFC4034"/> to
-	    indicate that it wishes to receive additional DNSSEC RRs (i.e., RRSIG
-	    RRs) in the response.  Such validating resolvers SHOULD include the
-	    edns-key-tag option in the OPT RR when sending a DNSKEY
-	    query.
-	  </t>
-	</section>
-	<section title="Non-validating Stub Resolvers">
-	  <t>
-	    The edns-key-tag option MUST NOT be included by
-	    non-validating stub resolvers.
-	  </t>
-	</section>
-      </section>
-
-      <section title="Recursive Resolvers">
-	<t></t>
-      	<section title="Validating Recursive Resolvers">
-	  <t>
-	    A validating recursive resolver is, by definition, configured
-	    with at least one trust anchor.  Thus, a recursive resolver
-	    SHOULD include the edns-key-tag option in its DNSKEY queries
-	    as described above.
-	  </t>
-	  <t>
-	    In addition, the clients of a validating recursive
-	    resolver might be configured to do their own validation,
-	    with their own trust anchor(s).  When a validating
-	    recursive resolver receives a query that includes the
-	    edns-key-tag option with a Key Tag list that differs
-	    from its own, it SHOULD forward both the client's Key
-	    Tag list as well as its own.  When doing so, the recursive
-	    resolver SHOULD transmit the two Key Tag lists using
-	    separate instances of the edns-key-tag option code in
-	    the OPT meta-RR.
-	    For example, if the recursive resolver's Key Tag list
-	    is (19036, 12345) and the stub/client's list is (19036,
-	    34567), the recursive would include the edns-key-tag option
-	    twice: Once with values (19036, 12345) and once with
-	    values (19036, 34567).
-	  </t>
-	  <t>
-	    A validating recursive resolver MAY combine stub/client Key Tag values
-	    from multiple incoming queries into a single outgoing query.  It is
-	    RECOMMENDED that implementations place reasonable limits on the number of
-	    Key Tags to include in the outgoing edns-key-tag option.
-	  </t>
-	  <t>
-	    If the client included the DO and Checking Disabled (CD) bits, but
-	    did not include the edns-key-tag option in the query, the
-	    validating recursive resolver MAY include the option with its own
-	    Key Tag values in full.
-	  </t>
-	  <t>
-	    Validating recursive resolvers MUST NOT set the edns-key-tag
-	    option in the final response to the stub client.
-	  </t>
-	</section>
-
-	<section title="Non-validating Recursive Resolvers">
-	  <t>
-	    Recursive resolvers that do not validate responses SHOULD copy the edns-key-tag
-	    option seen in received queries, as they represent the
-	    wishes of the validating downstream resolver that issued the original
-	    query.
-	  </t>
-
-	</section>
-      </section>
     </section>
 
     <section title="Use By Responders">
       <t>
-	An authoritative name server receiving queries with the
-	edns-key-tag option MAY log or otherwise collect the Key
+	An authoritative name server receiving key tag queries
+	MAY log or otherwise collect the Key
 	Tag values to provide information to the zone operator.
       </t>
       <t>
-	A responder MUST NOT include the edns-key-tag option in any
-	DNS response.
+	An authoritative name server MUST generate an appropriate
+	response to the key tag query.  Unless the zone operator has
+	intentionally added "_ta-xxxx" records to the zone, the server
+	MUST generate an NXDOMAIN response.  The zone operator might want
+	to add specific key tag records to its zone, perhaps with specific TTLs,
+	to affect the frequency of key tag queries from clients.
+	[ Note RFC1035 says NULL RRs are not allowed in master files,
+	but I believe that to be incorrect ]
       </t>
+      <section title="Interaction With Aggressive Negative Caching">
+        <t>
+	  Aggressive NSEC/NSEC3 negative caching
+	  [draft-fujiwara-dnsop-nsec-aggressiveuse] may also affect the
+	  quality of key tag signalling.  When the response code for a key
+	  tag query is NXDOMAIN, DNS resolvers that implement aggressive
+	  negative caching will send fewer key tag queries than resolvers
+	  that do not implement it.
+        </t>
+	<t>
+	  For this reason, zone operators might choose to create records
+	  corresponding to expected key tag queries.  During a rollover
+	  from key tag 1234 (hex) to key tag abcd (hex), the zone could
+	  include the following records:
+<figure><artwork align="left"><![CDATA[
+_ta-1234        IN   NULL   \# 0
+_ta-abcd        IN   NULL   \# 0
+_ta-1234-abcd   IN   NULL   \# 0
+_ta-abcd-1234   IN   NULL   \# 0
+]]></artwork></figure>
+	  [ most likely someone will suggest that key tag values should
+	  be ordered to reduce the record count from 4 to 3 ]
+	</t>
+      <section>
     </section>
 
     <section title="IANA Considerations">
-      <t>The IANA is directed to assign an EDNS0 option code for
-        the edns-key-tag option from the DNS EDNS0 Option Codes (OPT)
-        registry as follows:</t>
+      <t>
+	This document does not impose any requirements on IANA.
+      </t>
+    </section>
 
-      <texttable>
-        <ttcol>Value</ttcol>
-        <ttcol>Name</ttcol>
-        <ttcol>Status</ttcol>
-        <ttcol>Reference</ttcol>
+    <section anchor="Evolution" title="Design Evolution">
+was EDNS, now not
+      <t>
+	[ FOR WG DISCUSSION: There is some reluctance within the
+	working group to use EDNS0 to convey the key tags upstream.
+	In particular there is a concern that middleboxes might
+	block messages with unknown option codes.  Also since EDNS0
+	is hop-by-hop, middleboxes and un-upgraded recursives won't
+	necessarily know whether or not the edns-key-tag options
+	should be forwarded.  RFC6891 says: "OPTION-CODE values not
+	understood by a responder or requestor MUST be ignored."
+	draft-wkumari-dnsop-trust-management proposed encoding this
+	information in query names, but sufficient issues with this
+	approach were discovered that the authors of the above
+	decided to abandon this work. The authors of
+	draft-ietf-dnsop-edns-key-tag are willing to consider this
+	alternative if so guided by the working group. ]
+      </t>
 
-        <c>[TBA]</c>
-        <c>edns-key-tag</c>
-        <c>Optional</c>
-        <c>[This document]</c>
-      </texttable>
+	downside: QNAME approach subject to aggressive negative caching.
     </section>
 
 
