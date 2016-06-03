@@ -42,7 +42,7 @@ An alternate method (rfc include) is described in the references. -->
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc category="std" docName="draft-ietf-dnsop-edns-key-tag-01" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-dnsop-edns-key-tag-02" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
   ipr values: full3667, noModification3667, noDerivatives3667
   you can add the attributes updates="NNNN" and obsoletes="NNNN"
@@ -232,8 +232,8 @@ An alternate method (rfc include) is described in the references. -->
       </t>
       <t>
 	For example, a validating DNS resolver that has a single root
-	zone trust anchor with key tag 19036 (decimal) would originate
-	a query of the form QTYPE=NULL, QCLASS=IN, QNAME=_ta-4a5c.
+	zone trust anchor with key tag 17476 (decimal) would originate
+	a query of the form QTYPE=NULL, QCLASS=IN, QNAME=_ta-4444.
       </t>
       <t>
 	A validating DNS resolver that has a three trust anchors for the
@@ -257,13 +257,13 @@ An alternate method (rfc include) is described in the references. -->
       </t>
       <t>
 	A DNS validating resolver SHOULD NOT originate key tag queries when also originating
-	DNSKEY queries for a non-Trust Anchor zones.
+	DNSKEY queries for non-Trust Anchor zones.
       </t>
       <t>
 	A non-validating DNS resolver MUST NOT originate key tag queries.
       </t>
       <t>
-	DNS resolvers with caches SHOULD cache and reuse a response to a key tag query
+	DNS resolvers with caches SHOULD cache and reuse the response to a key tag query
 	just as it would any other response.
       </t>
 
@@ -297,18 +297,20 @@ An alternate method (rfc include) is described in the references. -->
 	<t>
 	  For this reason, zone operators might choose to create records
 	  corresponding to expected key tag queries.  During a rollover
-	  from key tag 1234 (hex) to key tag abcd (hex), the zone could
+	  from key tag 1111 (hex) to key tag 2222 (hex), the zone could
 	  include the following records:
-<figure><artwork align="left"><![CDATA[
-_ta-1234        IN   NULL   \# 0
-_ta-abcd        IN   NULL   \# 0
-_ta-1234-abcd   IN   NULL   \# 0
-_ta-abcd-1234   IN   NULL   \# 0
-]]></artwork></figure>
+	  <figure>
+	    <artwork align="left"><![CDATA[
+_ta-1111        IN   NULL   \# 0
+_ta-2222        IN   NULL   \# 0
+_ta-1111-2222   IN   NULL   \# 0
+_ta-2222-1111   IN   NULL   \# 0
+	    ]]></artwork>
+	  </figure>
 	  [ most likely someone will suggest that key tag values should
 	  be ordered to reduce the record count from 4 to 3 ]
 	</t>
-      <section>
+      </section>
     </section>
 
     <section title="IANA Considerations">
@@ -318,25 +320,60 @@ _ta-abcd-1234   IN   NULL   \# 0
     </section>
 
     <section anchor="Evolution" title="Design Evolution">
-was EDNS, now not
       <t>
-	[ FOR WG DISCUSSION: There is some reluctance within the
-	working group to use EDNS0 to convey the key tags upstream.
-	In particular there is a concern that middleboxes might
-	block messages with unknown option codes.  Also since EDNS0
-	is hop-by-hop, middleboxes and un-upgraded recursives won't
-	necessarily know whether or not the edns-key-tag options
-	should be forwarded.  RFC6891 says: "OPTION-CODE values not
-	understood by a responder or requestor MUST be ignored."
-	draft-wkumari-dnsop-trust-management proposed encoding this
-	information in query names, but sufficient issues with this
-	approach were discovered that the authors of the above
-	decided to abandon this work. The authors of
-	draft-ietf-dnsop-edns-key-tag are willing to consider this
-	alternative if so guided by the working group. ]
+	Initially this document was named draft-edns-key-tag and
+	proposed including Key Tag values in a new EDNS(0) option
+	code.  It was modeled after <xref target="RFC6975"/>, which
+	provides DNSSEC algorithm signalling.
       </t>
-
-	downside: QNAME approach subject to aggressive negative caching.
+      <t>
+	The authors received feedback from Working Group participants
+	that it might be better to convey Key Tags in QNAME of a
+	separate DNS query, rather than as an EDNS(0) option.  Mostly
+	this is because forwarding (e.g. from stub to recursive to
+	authoritative) could be problematic.  Reasons include:
+	<list style="numbers">
+	  <t>
+	    EDNS(0) is a hop-by-hop protocol.  Unknown option codes
+	    would not be forwarded by default, as per <xref
+	    target="RFC6891"/>.
+	  </t>
+	  <t>
+	    Middleboxes might block entire queries containing unknown
+	    EDNS(0) option codes.
+	  </t>
+	  <t>
+	    A recursive might need to remember Key Tag values (i.e.,
+	    keep state) received from its stub clients and then
+	    forward them at a later opportunity.
+	  </t>
+	</list>
+      </t>
+      <t>
+	One advantage of the EDNS(0) option code is that it is
+	possible to see that a stub client has a different Key Tag
+	list than its forwarder.  In the current QNAME-based approach,
+	this is not possible because queries originated by a stub
+	and a forwarder are indistinguishable.  The authors feel
+	this advantage is not sufficient to justify the EDNS(0)
+	approach.
+      </t>
+      <t>
+	One downside to the QNAME approach is that it uses a separate
+	query, whereas with EDNS(0) the Key Tag values are
+	"piggy-backed" on to an existing DNSKEY query.  For this
+	reason, this document recommends only sending key tag queries
+	for configured trust anchors, whereas the earlier document
+	allowed them to be sent with any DNSKEY query.
+      </t>
+      <t>
+	Another downside, already discussed, is that since the trust
+	anchor zone might not contain "_ta-xxxx" labels, these queries
+	could be subject to aggressive negative caching features
+	now in development by the Working Group.  This could affect
+	the amount of signalling sent by some clients compared to
+	others.
+      </t>
     </section>
 
 
@@ -344,8 +381,8 @@ was EDNS, now not
       <t>
         This document specifies a way for a client to signal its trust anchor
         knowledge to a cache or server.  The signals
-        are optional codes contained in the OPT meta-RR used with EDNS.  The
-        goal of these options is to signal new trust anchor uptake in clients
+        are key tag queries whereby Key Tag values are encoded in the QNAME.  The
+        purpose of these queries is to signal new trust anchor uptake in clients
         to allow zone administrators to know when it is possible to
         complete a key rollover in a DNSSEC-signed zone.
       </t>
@@ -359,7 +396,7 @@ was EDNS, now not
         exploited by the attacker.
       </t>
       <t>
-	Consumers of data collected from the edns-key-tag option
+	Consumers of data collected from the key tag queries
 	are advised that provided Key Tag values might be "made up"
 	by some DNS clients with malicious or at least mischievous
 	intentions.
@@ -372,15 +409,15 @@ was EDNS, now not
 	DNSSEC does not require keys in a zone to have unique Key
 	Tags.  During a rollover there is a small possibility that
 	an old key and a new key will have identical Key Tag values.
-	Zone operators relying on the edns-key-tag mechanism SHOULD
+	Zone operators relying on the key tag query data SHOULD
 	take care to ensure that new keys have unique Key Tag values.
       </t>
     </section>
 
     <section title="Privacy Considerations" anchor="privacy">
       <t>
-	This proposal adds additional, optional "signaling" to DNS queries
-	in the form of Key Tag values.  While Key Tag values
+	This proposal adds additional, optional "signaling" from DNSSEC validators
+	in the form of key tag queries.  While Key Tag values
 	themselves are not considered private information, it may
 	be possible for an eavesdropper to use Key Tag values as a
 	fingerprinting technique to identify particular DNS validating
@@ -389,34 +426,37 @@ was EDNS, now not
 	root zone.
       </t>
       <t>
-	A validating end-system resolver need not transmit the
-	edns-key-tag option in every applicable query.  Due to
+	A validating DNS resolver need not transmit a
+	key tag query in conjuntion with every corresponding DNSKEY query.  Due to
 	privacy concerns, such a resolver MAY choose to transmit
-	the edns-key-tag option for a subset of queries (e.g., every
+	key tag queries less often (e.g., every
 	25th time), or by random chance with a certain probability
 	(e.g., 5%).
       </t>
       <t>
 	Implementations of this specification MAY be administratively
-	configured to only transmit the edns-key-tag option for
+	configured to only transmit key tag queries for
 	certain zones.  For example, the software's configuration
-	file may specify a list of zones for which use of the option
-	is allowed or denied.  Since the primary motivation for
+	file may specify a list of zones for which key tag queries
+	are allowed or denied.  Since the primary motivation for
 	this specification is to provide operational measurement
 	data for root zone key rollovers, it is RECOMMENDED that
-	implementations at least include the edns-key-tag option
-	for root zone DNSKEY queries.
+	implementations at least send key tag queries in conjunction
+	with root zone DNSKEY queries.
       </t>
     </section>
 
     <section anchor="Acknowledgments" title="Acknowledgments">
       <t>
-	This document was inspired by and borrows heavily from <xref target="RFC6975"/>
+	An early version of
+	this document was inspired by and borrowed heavily from <xref target="RFC6975"/>
 	by Scott Rose and Steve Crocker.  The authors would like to
 	thank
+	Mark Andrews,
 	Casey Deccio,
 	Burt Kalisky,
 	Bob Harold,
+	Edward Lewis,
 	Tim Wicinski,
 	Suzanne Woolf,
 	and other members of
@@ -435,16 +475,29 @@ was EDNS, now not
     &RFC4033;
     &RFC4034;
     &RFC4035;
-    &RFC6891;
     </references>
 
     <references title="Informative References">
     &RFC5011;
+    &RFC6891;
     &RFC6975;
     </references>
 
     <section title="Changes / Author Notes.">
       <t>[RFC Editor: Please remove this section before publication]</t>
+
+      <t>From -01 to -02:</t>
+      <t>
+	<list style="symbols">
+	  <t>
+	    Significantly rewritten to advocate a QNAME-based approach instead of
+	    the EDNS-based approach.
+	  </t>
+          <t>
+	    Added Paul Hoffman as coauthor.
+	  </t>
+	</list>
+      </t>
 
       <t>From -00 to -01:</t>
 
