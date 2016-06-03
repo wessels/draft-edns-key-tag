@@ -54,7 +54,7 @@ An alternate method (rfc include) is described in the references. -->
     <!-- The abbreviated title is used in the page header - it is only necessary if the
     full title is longer than 39 characters -->
 
-    <title abbrev="DNSSEC Key Tag Signalling">Signalling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)</title>
+    <title abbrev="DNSSEC Key Tag Signaling">Signaling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)</title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
 
@@ -137,7 +137,7 @@ An alternate method (rfc include) is described in the references. -->
 	anchor and proceeding down to a particular node in the DNS.
 	This document specifies a way for validating end-system
 	resolvers to signal to a server which keys are referenced in
-	their chain-of-trust.  The data from such signalling allow zone administrators
+	their chain-of-trust.  The data from such signaling allow zone administrators
 	to monitor the progress of rollovers in a DNSSEC-signed zone.
       </t>
     </abstract>
@@ -167,7 +167,7 @@ An alternate method (rfc include) is described in the references. -->
 	would use to validate responses from that zone.  This is done by periodically sending special "key tag queries"
 	to a server authoritative for the zone.  The key tag query format is
 	specified below in <xref target="query-format"/>.
-	This new signalling mechanism is OPTIONAL to implement and use.
+	This new signaling mechanism is OPTIONAL to implement and use.
       </t>
       <t>
 	Key tag queries serve to measure the
@@ -182,7 +182,7 @@ An alternate method (rfc include) is described in the references. -->
 	This document does not introduce new processes for rolling keys or updating
 	trust anchors.
 	Rather, it specifies a means by which a DNS
-	queriy can signal the set of keys that a client uses for DNSSEC validation.
+	query can signal the set of keys that a client uses for DNSSEC validation.
       </t>
     </section>
     <section title="Requirements Terminology">
@@ -226,7 +226,7 @@ An alternate method (rfc include) is described in the references. -->
       </t>
       <t>
 	The first component of the query name is the string "_ta-" followed
-	by a hypen-separated list of hexadecimal-encoded Key Tag values.
+	by a hyphen-separated list of hexadecimal-encoded Key Tag values.
 	The zone name corresponding to the trust anchor is appended to this
 	first component.
       </t>
@@ -289,7 +289,7 @@ An alternate method (rfc include) is described in the references. -->
         <t>
 	  Aggressive NSEC/NSEC3 negative caching
 	  [draft-fujiwara-dnsop-nsec-aggressiveuse] may also affect the
-	  quality of key tag signalling.  When the response code for a key
+	  quality of key tag signaling.  When the response code for a key
 	  tag query is NXDOMAIN, DNS resolvers that implement aggressive
 	  negative caching will send fewer key tag queries than resolvers
 	  that do not implement it.
@@ -324,7 +324,7 @@ _ta-2222-1111   IN   NULL   \# 0
 	Initially this document was named draft-edns-key-tag and
 	proposed including Key Tag values in a new EDNS(0) option
 	code.  It was modeled after <xref target="RFC6975"/>, which
-	provides DNSSEC algorithm signalling.
+	provides DNSSEC algorithm signaling.
       </t>
       <t>
 	The authors received feedback from Working Group participants
@@ -371,7 +371,7 @@ _ta-2222-1111   IN   NULL   \# 0
 	anchor zone might not contain "_ta-xxxx" labels, these queries
 	could be subject to aggressive negative caching features
 	now in development by the Working Group.  This could affect
-	the amount of signalling sent by some clients compared to
+	the amount of signaling sent by some clients compared to
 	others.
       </t>
     </section>
@@ -427,7 +427,7 @@ _ta-2222-1111   IN   NULL   \# 0
       </t>
       <t>
 	A validating DNS resolver need not transmit a
-	key tag query in conjuntion with every corresponding DNSKEY query.  Due to
+	key tag query in conjunction with every corresponding DNSKEY query.  Due to
 	privacy concerns, such a resolver MAY choose to transmit
 	key tag queries less often (e.g., every
 	25th time), or by random chance with a certain probability
