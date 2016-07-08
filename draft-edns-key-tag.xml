@@ -172,8 +172,8 @@ information from the end-systems.
       <t>
 	This draft sets out to specify a way for validating end-system
 	resolvers to tell a server in a DNS query which DNSSEC key(s) they
-	would use to validate the expected response.  This is done in two ways:
-    using EDNS option for use in the OPT meta-RR <xref target="RFC6891"/>
+	would use to validate responses from that zone.  This is done in two ways:
+    using an EDNS option for use in the OPT meta-RR <xref target="RFC6891"/>
     that contains the key tags (described in <xref target="option-all"/>),
     and by periodically sending special "key tag queries"
 	to a server authoritative for the zone (described in <xref target="query-all"/>).
@@ -228,7 +228,7 @@ information from the end-systems.
       <t>
 	One advantage of the EDNS(0) option code is that it is
 	possible to see that a stub client has a different Key Tag
-	list than its forwarder.  In the current QNAME-based approach,
+	list than its forwarder.  In the QNAME-based approach,
 	this is not possible because queries originated by a stub
 	and a forwarder are indistinguishable.  The authors feel
 	this advantage is not sufficient to justify the EDNS(0)
@@ -238,13 +238,13 @@ information from the end-systems.
 	One downside to the QNAME approach is that it uses a separate
 	query, whereas with EDNS(0) the Key Tag values are
 	"piggy-backed" on to an existing DNSKEY query.  For this
-	reason, this document recommends only sending key tag queries
-	for configured trust anchors, whereas the earlier document
-	allowed them to be sent with any DNSKEY query.
+	reason, this document recommends only sending QNAME-based key tag queries
+	for configured trust anchors, although EDNS-based key tags can be
+	sent with any DNSKEY query.
       </t>
       <t>
-	Another downside, already discussed, is that since the trust
-	anchor zone might not contain "_ta-xxxx" labels, these queries
+	Another downside to the QNAME-based approach is that since the trust
+	anchor zone might not contain labels matching the QNAME, these queries
 	could be subject to aggressive negative caching features
 	now in development by the Working Group.  This could affect
 	the amount of signaling sent by some clients compared to
@@ -674,6 +674,19 @@ _ta-2222-1111   IN   NULL   \# 0
     <section title="Changes / Author Notes.">
       <t>[RFC Editor: Please remove this section before publication]</t>
 
+      <t>From -01 to -02:</t>
+
+      <t>
+	<list style="symbols">
+          <t>
+	    Added QNAME-based method of signaling key tags.
+	  </t>
+
+          <t>
+	    Added Paul Hoffman as coauthor.
+	  </t>
+        </list></t>
+
       <t>From -00 to -01:</t>
 
       <t>
@@ -689,6 +702,7 @@ _ta-2222-1111   IN   NULL   \# 0
 	    Added Warren as coauthor.
 	  </t>
         </list></t>
+
     </section>
 
   </back>
