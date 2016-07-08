@@ -1,14 +1,13 @@
 
 
 
-
 Internet Engineering Task Force                               D. Wessels
 Internet-Draft                                                  Verisign
 Intended status: Standards Track                               W. Kumari
-Expires: January 8, 2017                                          Google
+Expires: January 9, 2017                                          Google
                                                               P. Hoffman
                                                                    ICANN
-                                                            July 7, 2016
+                                                            July 8, 2016
 
 
   Signaling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)
@@ -34,7 +33,7 @@ Abstract
    the Internet than having no way to gain the information from the end-
    systems.
 
-Status of This Memo
+Status of this Memo
 
    This Internet-Draft is submitted in full conformance with the
    provisions of BCP 78 and BCP 79.
@@ -49,11 +48,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 8, 2017.
+   This Internet-Draft will expire on January 9, 2017.
 
 
 
-Wessels, et al.          Expires January 8, 2017                [Page 1]
+Wessels, et al.          Expires January 9, 2017                [Page 1]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
@@ -73,43 +72,43 @@ Copyright Notice
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
 
+
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Design Evolution  . . . . . . . . . . . . . . . . . . . .   3
-   2.  Requirements Terminology  . . . . . . . . . . . . . . . . . .   4
-   3.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   4.  Using the edns-key-tag Option . . . . . . . . . . . . . . . .   5
-     4.1.  Option Format . . . . . . . . . . . . . . . . . . . . . .   5
-     4.2.  Use By Queriers . . . . . . . . . . . . . . . . . . . . .   5
-       4.2.1.  Stub Resolvers  . . . . . . . . . . . . . . . . . . .   6
-         4.2.1.1.  Validating Stub Resolvers . . . . . . . . . . . .   6
-         4.2.1.2.  Non-validating Stub Resolvers . . . . . . . . . .   6
-       4.2.2.  Recursive Resolvers . . . . . . . . . . . . . . . . .   6
-         4.2.2.1.  Validating Recursive Resolvers  . . . . . . . . .   7
-         4.2.2.2.  Non-validating Recursive Resolvers  . . . . . . .   7
-     4.3.  Use By Responders . . . . . . . . . . . . . . . . . . . .   7
-   5.  Using the Key Tag Query . . . . . . . . . . . . . . . . . . .   8
-     5.1.  Query Format  . . . . . . . . . . . . . . . . . . . . . .   8
-     5.2.  Use By Queriers . . . . . . . . . . . . . . . . . . . . .   8
-     5.3.  Use By Responders . . . . . . . . . . . . . . . . . . . .   8
-       5.3.1.  Interaction With Aggressive Negative Caching  . . . .   9
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   8.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  10
-   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  11
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Changes / Author Notes.  . . . . . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1.  Design Evolution . . . . . . . . . . . . . . . . . . . . .  3
+   2.  Requirements Terminology . . . . . . . . . . . . . . . . . . .  4
+   3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   4.  Using the edns-key-tag Option  . . . . . . . . . . . . . . . .  5
+     4.1.  Option Format  . . . . . . . . . . . . . . . . . . . . . .  5
+     4.2.  Use By Queriers  . . . . . . . . . . . . . . . . . . . . .  5
+       4.2.1.  Stub Resolvers . . . . . . . . . . . . . . . . . . . .  6
+         4.2.1.1.  Validating Stub Resolvers  . . . . . . . . . . . .  6
+         4.2.1.2.  Non-validating Stub Resolvers  . . . . . . . . . .  6
+       4.2.2.  Recursive Resolvers  . . . . . . . . . . . . . . . . .  7
+         4.2.2.1.  Validating Recursive Resolvers . . . . . . . . . .  7
+         4.2.2.2.  Non-validating Recursive Resolvers . . . . . . . .  7
+     4.3.  Use By Responders  . . . . . . . . . . . . . . . . . . . .  7
+   5.  Using the Key Tag Query  . . . . . . . . . . . . . . . . . . .  8
+     5.1.  Query Format . . . . . . . . . . . . . . . . . . . . . . .  8
+     5.2.  Use By Queriers  . . . . . . . . . . . . . . . . . . . . .  8
+     5.3.  Use By Responders  . . . . . . . . . . . . . . . . . . . .  8
+       5.3.1.  Interaction With Aggressive Negative Caching . . . . .  9
+   6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . .  9
+   7.  Security Considerations  . . . . . . . . . . . . . . . . . . .  9
+   8.  Privacy Considerations . . . . . . . . . . . . . . . . . . . . 10
+   9.  Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . 11
+   10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+     10.1. Normative References . . . . . . . . . . . . . . . . . . . 11
+     10.2. Informative References . . . . . . . . . . . . . . . . . . 12
+   Appendix A.  Changes / Author Notes. . . . . . . . . . . . . . . . 12
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
 
 
 
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 2]
+Wessels, et al.          Expires January 9, 2017                [Page 2]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
@@ -132,8 +131,8 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
    This draft sets out to specify a way for validating end-system
    resolvers to tell a server in a DNS query which DNSSEC key(s) they
-   would use to validate the expected response.  This is done in two
-   ways: using EDNS option for use in the OPT meta-RR [RFC6891] that
+   would use to validate responses from that zone.  This is done in two
+   ways: using an EDNS option for use in the OPT meta-RR [RFC6891] that
    contains the key tags (described in Section 4), and by periodically
    sending special "key tag queries" to a server authoritative for the
    zone (described in Section 5).
@@ -161,16 +160,15 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    The authors received feedback from Working Group participants that it
    might be better to convey Key Tags in QNAME of a separate DNS query,
    rather than as an EDNS(0) option.  Mostly this is because forwarding
+   (e.g. from stub to recursive to authoritative) could be problematic.
 
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 3]
+Wessels, et al.          Expires January 9, 2017                [Page 3]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
 
-   (e.g. from stub to recursive to authoritative) could be problematic.
    Reasons include:
 
    1.  EDNS(0) is a hop-by-hop protocol.  Unknown option codes would not
@@ -185,28 +183,31 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
    One advantage of the EDNS(0) option code is that it is possible to
    see that a stub client has a different Key Tag list than its
-   forwarder.  In the current QNAME-based approach, this is not possible
-   because queries originated by a stub and a forwarder are
-   indistinguishable.  The authors feel this advantage is not sufficient
-   to justify the EDNS(0) approach.
+   forwarder.  In the QNAME-based approach, this is not possible because
+   queries originated by a stub and a forwarder are indistinguishable.
+   The authors feel this advantage is not sufficient to justify the
+   EDNS(0) approach.
 
    One downside to the QNAME approach is that it uses a separate query,
    whereas with EDNS(0) the Key Tag values are "piggy-backed" on to an
    existing DNSKEY query.  For this reason, this document recommends
-   only sending key tag queries for configured trust anchors, whereas
-   the earlier document allowed them to be sent with any DNSKEY query.
+   only sending QNAME-based key tag queries for configured trust
+   anchors, although EDNS-based key tags can be sent with any DNSKEY
+   query.
 
-   Another downside, already discussed, is that since the trust anchor
-   zone might not contain "_ta-xxxx" labels, these queries could be
-   subject to aggressive negative caching features now in development by
-   the Working Group.  This could affect the amount of signaling sent by
-   some clients compared to others.
+   Another downside to the QNAME-based approach is that since the trust
+   anchor zone might not contain labels matching the QNAME, these
+   queries could be subject to aggressive negative caching features now
+   in development by the Working Group.  This could affect the amount of
+   signaling sent by some clients compared to others.
+
 
 2.  Requirements Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119].
+
 
 3.  Terminology
 
@@ -216,16 +217,15 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
       signed DNS response.  In general, a validating resolver will have
       to obtain the initial values of its trust anchors via some secure
       or trusted means outside the DNS protocol.  Presence of a trust
-      anchor also implies that the resolver should expect the zone to
 
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 4]
+Wessels, et al.          Expires January 9, 2017                [Page 4]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
 
+      anchor also implies that the resolver should expect the zone to
       which the trust anchor points to be signed. (quoted from [RFC4033]
       Section 2)
 
@@ -236,6 +236,7 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
       efficiently when more than one candidate DNSKEY RR is available.
       For most algorithms the Key Tag is a simple 16-bit modular sum of
       the DNSKEY RDATA.  See [RFC4034] Appendix B.
+
 
 4.  Using the edns-key-tag Option
 
@@ -272,16 +273,16 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY
    queries.
 
-   The KEY-TAG value(s) included in the edns-key-tag option represent
-   the Key Tag of the Trust Anchor or DNSKEY RR that will be used to
 
 
 
-Wessels, et al.          Expires January 8, 2017                [Page 5]
+Wessels, et al.          Expires January 9, 2017                [Page 5]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
 
+   The KEY-TAG value(s) included in the edns-key-tag option represent
+   the Key Tag of the Trust Anchor or DNSKEY RR that will be used to
    validate the expected response.  When the client sends a DNSKEY
    query, the edns-key-tag option represents the Key Tag(s) of the
    KSK(s) of the zone for which the server is authoritative.  A
@@ -325,18 +326,18 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    The edns-key-tag option MUST NOT be included by non-validating stub
    resolvers.
 
-4.2.2.  Recursive Resolvers
 
 
 
 
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 6]
+Wessels, et al.          Expires January 9, 2017                [Page 6]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
+
+4.2.2.  Recursive Resolvers
 
 4.2.2.1.  Validating Recursive Resolvers
 
@@ -384,14 +385,15 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    information to the zone operator.
 
    A responder MUST NOT include the edns-key-tag option in any DNS
-   response.
 
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 7]
+Wessels, et al.          Expires January 9, 2017                [Page 7]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
+
+
+   response.
 
 
 5.  Using the Key Tag Query
@@ -440,30 +442,30 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    otherwise collect the Key Tag values to provide information to the
    zone operator.
 
-   An authoritative name server MUST generate an appropriate response to
-   the key tag query.  Unless the zone operator has intentionally added
 
 
-
-Wessels, et al.          Expires January 8, 2017                [Page 8]
+Wessels, et al.          Expires January 9, 2017                [Page 8]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
 
+   An authoritative name server MUST generate an appropriate response to
+   the key tag query.  Unless the zone operator has intentionally added
    "_ta-xxxx" records to the zone, the server MUST generate an NXDOMAIN
    response.  The zone operator might want to add specific key tag
    records to its zone, perhaps with specific TTLs, to affect the
-   frequency of key tag queries from clients.  [ Note RFC1035 says NULL
+   frequency of key tag queries from clients. [ Note RFC1035 says NULL
    RRs are not allowed in master files, but I believe that to be
    incorrect ]
 
 5.3.1.  Interaction With Aggressive Negative Caching
 
-   Aggressive NSEC/NSEC3 negative caching [draft-fujiwara-dnsop-nsec-
-   aggressiveuse] may also affect the quality of key tag signaling.
-   When the response code for a key tag query is NXDOMAIN, DNS resolvers
-   that implement aggressive negative caching will send fewer key tag
-   queries than resolvers that do not implement it.
+   Aggressive NSEC/NSEC3 negative caching
+   [draft-fujiwara-dnsop-nsec-aggressiveuse] may also affect the quality
+   of key tag signaling.  When the response code for a key tag query is
+   NXDOMAIN, DNS resolvers that implement aggressive negative caching
+   will send fewer key tag queries than resolvers that do not implement
+   it.
 
    For this reason, zone operators might choose to create records
    corresponding to expected key tag queries.  During a rollover from
@@ -478,6 +480,7 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    [ most likely someone will suggest that key tag values should be
    ordered to reduce the record count from 4 to 3 ]
 
+
 6.  IANA Considerations
 
    The IANA is directed to assign an EDNS0 option code for the edns-key-
@@ -489,22 +492,22 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
            | [TBA] | edns-key-tag | Optional | [This document] |
            +-------+--------------+----------+-----------------+
 
+
 7.  Security Considerations
 
    This document specifies a way for a client to signal its trust anchor
    knowledge to a cache or server.  The goal of these optional
-   mechanisms is to signal new trust anchor uptake in clients to allow
-   zone administrators to know when it is possible to complete a key
-   rollover in a DNSSEC-signed zone.
 
 
 
-
-
-Wessels, et al.          Expires January 8, 2017                [Page 9]
+Wessels, et al.          Expires January 9, 2017                [Page 9]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
+
+   mechanisms is to signal new trust anchor uptake in clients to allow
+   zone administrators to know when it is possible to complete a key
+   rollover in a DNSSEC-signed zone.
 
    There is a possibility that an eavesdropper or server could infer the
    validator in use by a client by the Key Tag list seen.  This may
@@ -526,6 +529,7 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    new key will have identical Key Tag values.  Zone operators relying
    on the edns-key-tag mechanism SHOULD take care to ensure that new
    keys have unique Key Tag values.
+
 
 8.  Privacy Considerations
 
@@ -549,17 +553,16 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    zones for which use of the mechanisms described here is allowed or
    denied.  Since the primary motivation for this specification is to
    provide operational measurement data for root zone key rollovers, it
-   is RECOMMENDED that implementations at least include the edns-key-tag
-   option for root zone DNSKEY queries.
 
 
 
-
-
-
-Wessels, et al.          Expires January 8, 2017               [Page 10]
+Wessels, et al.          Expires January 9, 2017               [Page 10]
 
 Internet-Draft          DNSSEC Key Tag Signaling               July 2016
+
+
+   is RECOMMENDED that implementations at least include the edns-key-tag
+   option for root zone DNSKEY queries.
 
 
 9.  Acknowledgments
@@ -569,6 +572,7 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
    Andrews, Casey Deccio, Burt Kalisky, Bob Harold, Edward Lewis, Tim
    Wicinski, Suzanne Woolf, and other members of the dnsop working group
    for their input.
+
 
 10.  References
 
@@ -584,8 +588,8 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
               <http://www.rfc-editor.org/info/rfc2119>.
 
    [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
-              Rose, "DNS Security Introduction and Requirements", RFC
-              4033, DOI 10.17487/RFC4033, March 2005,
+              Rose, "DNS Security Introduction and Requirements",
+              RFC 4033, DOI 10.17487/RFC4033, March 2005,
               <http://www.rfc-editor.org/info/rfc4033>.
 
    [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
@@ -603,29 +607,37 @@ Internet-Draft          DNSSEC Key Tag Signaling               July 2016
               RFC6891, April 2013,
               <http://www.rfc-editor.org/info/rfc6891>.
 
+
+
+
+
+
+Wessels, et al.          Expires January 9, 2017               [Page 11]
+
+Internet-Draft          DNSSEC Key Tag Signaling               July 2016
+
+
 10.2.  Informative References
 
    [RFC5011]  StJohns, M., "Automated Updates of DNS Security (DNSSEC)
               Trust Anchors", STD 74, RFC 5011, DOI 10.17487/RFC5011,
               September 2007, <http://www.rfc-editor.org/info/rfc5011>.
 
-
-
-
-
-Wessels, et al.          Expires January 8, 2017               [Page 11]
-
-Internet-Draft          DNSSEC Key Tag Signaling               July 2016
-
-
    [RFC6975]  Crocker, S. and S. Rose, "Signaling Cryptographic
               Algorithm Understanding in DNS Security Extensions
               (DNSSEC)", RFC 6975, DOI 10.17487/RFC6975, July 2013,
               <http://www.rfc-editor.org/info/rfc6975>.
 
+
 Appendix A.  Changes / Author Notes.
 
    [RFC Editor: Please remove this section before publication]
+
+   From -01 to -02:
+
+   o  Added QNAME-based method of signaling key tags.
+
+   o  Added Paul Hoffman as coauthor.
 
    From -00 to -01:
 
@@ -635,6 +647,7 @@ Appendix A.  Changes / Author Notes.
       stub.
 
    o  Added Warren as coauthor.
+
 
 Authors' Addresses
 
@@ -647,6 +660,17 @@ Authors' Addresses
    Phone: +1 703 948-3200
    Email: dwessels@verisign.com
    URI:   http://verisigninc.com
+
+
+
+
+
+
+
+
+Wessels, et al.          Expires January 9, 2017               [Page 12]
+
+Internet-Draft          DNSSEC Key Tag Signaling               July 2016
 
 
    Warren Kumari
@@ -669,4 +693,36 @@ Authors' Addresses
 
 
 
-Wessels, et al.          Expires January 8, 2017               [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wessels, et al.          Expires January 9, 2017               [Page 13]
+
