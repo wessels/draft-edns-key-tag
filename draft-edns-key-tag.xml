@@ -133,19 +133,19 @@ An alternate method (rfc include) is described in the references. -->
 	by using digital signatures.  These digital signatures can be
 	verified by building a chain-of-trust starting from a trust
 	anchor and proceeding down to a particular node in the DNS.
-	This document specifies two different ways for validating end-system
+	This document specifies two different ways for validating
 	resolvers to signal to a server which keys are referenced in
 	their chain-of-trust.  The data from such signaling allow zone administrators
 	to monitor the progress of rollovers in a DNSSEC-signed zone.
       </t>
 
 <t>
-This document describes two independent methods for end-systems to publish their
+This document describes two independent methods for validating resolvers to publish their
 referenced keys: an EDNS option and a differnt DNS query. The reason
 there are two methods instead of one is some people see significant problems
 with each method. Having two methods is clearly worse than having just one,
 but it is probably better for the Internet than having no way to gain the
-information from the end-systems.
+information from the resolvers.
 </t>
 
     </abstract>
@@ -170,7 +170,7 @@ information from the end-systems.
 	value is equal to the Key Tag of the DNSKEY RR to which it refers.
       </t>
       <t>
-	This draft sets out to specify a way for validating end-system
+	This draft sets out to specify a way for validating
 	resolvers to tell a server in a DNS query which DNSSEC key(s) they
 	would use to validate responses from that zone.  This is done in two ways:
     using an EDNS option for use in the OPT meta-RR <xref target="RFC6891"/>
@@ -318,9 +318,9 @@ information from the end-systems.
 
     <section title="Use By Queriers">
       <t>
-	A validating end-system resolver sets the edns-key-tag
+	A validating resolver sets the edns-key-tag
 	option in the OPT meta-RR when sending a
-	DNSKEY query.  The validating end-system resolver SHOULD also set the DNSSEC
+	DNSKEY query.  The validating resolver SHOULD also set the DNSSEC
 	OK bit <xref target="RFC4034"/> to indicate that it wishes to receive DNSSEC RRs in
 	the response.
       </t>
@@ -332,7 +332,7 @@ information from the end-systems.
 	Key Tag of the Trust Anchor or DNSKEY RR that will be used to validate the expected response.
 	When the client sends a DNSKEY query, the edns-key-tag option represents
 	the Key Tag(s) of the KSK(s) of the zone for which the server is authoritative.
-	A validating end-system resolver learns the Key Tag(s) of the KSK(s) from the zone's
+	A validating resolver learns the Key Tag(s) of the KSK(s) from the zone's
 	DS record(s) (found in the parent), or from a configured trust anchor.
       </t>
       <t>
@@ -616,7 +616,7 @@ _ta-2222-1111   IN   NULL   \# 0
 	root zone.
       </t>
       <t>
-	A validating end-system resolver need not transmit the
+	A validating resolver need not transmit the
 	key tags in every applicable query.  Due to
 	privacy concerns, such a resolver MAY choose to transmit
 	the key tags for a subset of queries (e.g., every
