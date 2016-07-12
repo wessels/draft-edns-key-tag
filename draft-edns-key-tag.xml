@@ -141,7 +141,7 @@ An alternate method (rfc include) is described in the references. -->
 
 <t>
 This document describes two independent methods for validating resolvers to publish their
-referenced keys: an EDNS option and a differnt DNS query. The reason
+referenced keys: an EDNS option and a different DNS query. The reason
 there are two methods instead of one is some people see significant problems
 with each method. Having two methods is clearly worse than having just one,
 but it is probably better for the Internet than having no way to gain the
@@ -461,7 +461,7 @@ information from the resolvers.
       </t>
       <t>
 	The first component of the query name is the string "_ta-" followed
-	by a hyphen-separated list of hexadecimal-encoded Key Tag values.
+	by a sorted, hyphen-separated list of hexadecimal-encoded Key Tag values.
 	The zone name corresponding to the trust anchor is appended to this
 	first component.
       </t>
@@ -471,10 +471,17 @@ information from the resolvers.
 	a query of the form QTYPE=NULL, QCLASS=IN, QNAME=_ta-4444.
       </t>
       <t>
+	Hexadecimal values MUST be zero-padded.  For example, if the
+	key tag is 999 (decimal), it is represented in hexadecimal as
+        03e7.
+      </t>
+      <t>
+	When representing multiple key tag values, they MUST be sorted
+	in order from smallest to largest.  For example,
 	A validating DNS resolver that has a three trust anchors for the
-	example.com zone with key tags 31589, 43547, 31406 (decimal)
+	example.com zone with key tags 1589, 43547, 31406 (decimal)
 	would originate a query of the form QTYPE=NULL, QCLASS=IN,
-	QNAME=_ta-7b65-aa1b-7aa3.example.com.
+	QNAME=_ta-0635-7aae-aa1b.example.com.
       </t>
 	
     </section>
@@ -539,11 +546,10 @@ information from the resolvers.
 _ta-1111        IN   NULL   \# 0
 _ta-2222        IN   NULL   \# 0
 _ta-1111-2222   IN   NULL   \# 0
-_ta-2222-1111   IN   NULL   \# 0
 ]]></artwork>
 	  </figure>
-	  [ most likely someone will suggest that key tag values should
-	  be ordered to reduce the record count from 4 to 3 ]
+	  Recall that when multiple key tags are present, the originating client
+	  MUST sort them from smallest to largest in the query name.
 	</t>
       </section>
     </section>
