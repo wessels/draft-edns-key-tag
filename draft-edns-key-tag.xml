@@ -250,6 +250,11 @@ information from the resolvers.
 	the amount of signaling sent by some clients compared to
 	others.
       </t>
+      <t>
+	A probably minor downside to the QNAME-based approach is that it cannot
+	be used with extremely long query names if the addition of the prefix
+	would cause the name to be longer than 255 octets.
+      </t>
     </section>
 
      </section>
@@ -327,6 +332,30 @@ information from the resolvers.
       <t>
 	A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY queries.
       </t>
+<!--
+Jinmei
+ I wonder whether it might be useful for a responder to signal its
+ capability of understanding the option, either by including this
+ option in the response or in some other way.  Then the resolver may
+ use that information to suppress further unnecessary generation and
+ inclusion of the key-tag option.  Not a strong opinion, but raising
+ it just in case it's worth considering.
+
+Duane:
+I generally like bi-directional signaling such as this, so I would not
+oppose having the server indicate its support for the feature in a response.
+
+I would like to hear from implementors whether or not they feel this places
+a burden on the implementation.  I know they already must do things like
+retry queries with/without EDNS and sometimes find a UDP message size that
+works.  This adds to those state-keeping requirements.
+
+Do we have to worry about middleboxes that would allow the option code in
+queries but block it in responses?
+
+We also would have to figure out whether a recursive should signal its
+support of the feature to a stub.
+-->
       <t>
 	The KEY-TAG value(s) included in the edns-key-tag option represent the
 	Key Tag of the Trust Anchor or DNSKEY RR that will be used to validate the expected response.
@@ -519,9 +548,11 @@ information from the resolvers.
       </t>
       <t>
 	An authoritative name server MUST generate an appropriate
-	response to the key tag query.  Unless the zone operator has
-	intentionally added "_ta-xxxx" records to the zone, the server
-	MUST generate an NXDOMAIN response.  The zone operator might want
+	response to the key tag query.  
+	A server does not need to have built-in logic
+	that determines the response to key tag queries: the response code
+	is determined by whether the data is in the zone file or
+	covered by wildcard. The zone operator might want
 	to add specific key tag records to its zone, perhaps with specific TTLs,
 	to affect the frequency of key tag queries from clients.
 	[ Note RFC1035 says NULL RRs are not allowed in master files,
@@ -530,7 +561,7 @@ information from the resolvers.
       <section title="Interaction With Aggressive Negative Caching">
         <t>
 	  Aggressive NSEC/NSEC3 negative caching
-	  [draft-fujiwara-dnsop-nsec-aggressiveuse] may also affect the
+	  <xref target="draft-ietf-dnsop-nsec-aggressiveuse"/> may also affect the
 	  quality of key tag signaling.  When the response code for a key
 	  tag query is NXDOMAIN, DNS resolvers that implement aggressive
 	  negative caching will send fewer key tag queries than resolvers
@@ -675,6 +706,15 @@ _ta-1111-2222   IN   NULL   \# 0
     <references title="Informative References">
     &RFC5011;
     &RFC6975;
+
+<reference anchor="draft-ietf-dnsop-nsec-aggressiveuse">
+<front>
+<title>Aggressive use of NSEC/NSEC3</title>
+<author initials="K." surname="Fujiwara" fullname="K. Fujiwara et. al."/>
+<date year="2016"/>
+</front>
+</reference>
+
     </references>
 
     <section title="Changes / Author Notes.">
