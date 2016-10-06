@@ -12,7 +12,7 @@ Expires: April 8, 2017                                            Google
 
 
   Signaling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)
-                    draft-ietf-dnsop-edns-key-tag-03
+                    draft-ietf-dnsop-edns-key-tag-04
 
 Abstract
 
