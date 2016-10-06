@@ -5,14 +5,14 @@
 Internet Engineering Task Force                               D. Wessels
 Internet-Draft                                                  Verisign
 Intended status: Standards Track                               W. Kumari
-Expires: March 3, 2017                                            Google
+Expires: April 8, 2017                                            Google
                                                               P. Hoffman
                                                                    ICANN
-                                                         August 30, 2016
+                                                         October 5, 2016
 
 
   Signaling Trust Anchor Knowledge in DNS Security Extensions (DNSSEC)
-                    draft-ietf-dnsop-edns-key-tag-02
+                    draft-ietf-dnsop-edns-key-tag-03
 
 Abstract
 
@@ -49,13 +49,13 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 3, 2017.
+   This Internet-Draft will expire on April 8, 2017.
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 1]
+Wessels, et al.           Expires April 8, 2017                 [Page 1]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 2]
+Wessels, et al.           Expires April 8, 2017                 [Page 2]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 3]
+Wessels, et al.           Expires April 8, 2017                 [Page 3]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
    (e.g. from stub to recursive to authoritative) could be problematic.
@@ -221,9 +221,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 4]
+Wessels, et al.           Expires April 8, 2017                 [Page 4]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
       signed DNS response.  In general, a validating resolver will have
@@ -277,9 +277,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 5]
+Wessels, et al.           Expires April 8, 2017                 [Page 5]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
    A DNS client MUST NOT include the edns-key-tag option for non-DNSKEY
@@ -333,9 +333,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 6]
+Wessels, et al.           Expires April 8, 2017                 [Page 6]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 4.2.2.  Recursive Resolvers
@@ -389,9 +389,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 7]
+Wessels, et al.           Expires April 8, 2017                 [Page 7]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
    A responder MUST NOT include the edns-key-tag option in any DNS
@@ -445,9 +445,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 8]
+Wessels, et al.           Expires April 8, 2017                 [Page 8]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 5.3.  Use By Responders
@@ -501,9 +501,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                 [Page 9]
+Wessels, et al.           Expires April 8, 2017                 [Page 9]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 7.  Security Considerations
@@ -557,9 +557,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                [Page 10]
+Wessels, et al.           Expires April 8, 2017                [Page 10]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
    zones for which use of the mechanisms described here is allowed or
@@ -613,9 +613,9 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                [Page 11]
+Wessels, et al.           Expires April 8, 2017                [Page 11]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
 10.2.  Informative References
@@ -669,9 +669,9 @@ Authors' Addresses
 
 
 
-Wessels, et al.           Expires March 3, 2017                [Page 12]
+Wessels, et al.           Expires April 8, 2017                [Page 12]
 
-Internet-Draft          DNSSEC Key Tag Signaling             August 2016
+Internet-Draft          DNSSEC Key Tag Signaling            October 2016
 
 
    Warren Kumari
@@ -725,4 +725,4 @@ Internet-Draft          DNSSEC Key Tag Signaling             August 2016
 
 
 
-Wessels, et al.           Expires March 3, 2017                [Page 13]
+Wessels, et al.           Expires April 8, 2017                [Page 13]
