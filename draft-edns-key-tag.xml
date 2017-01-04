@@ -135,18 +135,10 @@ An alternate method (rfc include) is described in the references. -->
 	anchor and proceeding down to a particular node in the DNS.
 	This document specifies two different ways for validating
 	resolvers to signal to a server which keys are referenced in
-	their chain-of-trust.  The data from such signaling allow zone administrators
+	their chain-of-trust (see <xref target="Design Evolution"/>
+	for the rationale).  The data from such signaling allow zone administrators
 	to monitor the progress of rollovers in a DNSSEC-signed zone.
       </t>
-
-<t>
-This document describes two independent methods for validating resolvers to publish their
-referenced keys: an EDNS option and a different DNS query. The reason
-there are two methods instead of one is some people see significant problems
-with each method. Having two methods is clearly worse than having just one,
-but it is probably better for the Internet than having no way to gain the
-information from the resolvers.
-</t>
 
     </abstract>
   </front>
@@ -170,10 +162,12 @@ information from the resolvers.
 	value is equal to the Key Tag of the DNSKEY RR to which it refers.
       </t>
       <t>
-	This draft sets out to specify a way for validating
-	resolvers to tell a server in a DNS query which DNSSEC key(s) they
-	would use to validate responses from that zone.  This is done in two ways:
-    using an EDNS option for use in the OPT meta-RR <xref target="RFC6891"/>
+	This document specifies how validating
+	resolvers can tell a server, in a DNS query, which DNSSEC key(s) they
+	would use to validate the server's responses.
+	It describes two independent methods for conveying Key Tag information
+	bewteen clients and servers:
+    placing an EDNS option in the OPT meta-RR <xref target="RFC6891"/>
     that contains the key tags (described in <xref target="option-all"/>),
     and by periodically sending special "key tag queries"
 	to a server authoritative for the zone (described in <xref target="query-all"/>).
@@ -197,13 +191,13 @@ information from the resolvers.
 
     <section anchor="Evolution" title="Design Evolution">
       <t>
-	Initially this document was named draft-edns-key-tag and
+	Initially, when the work on this document started, it
 	proposed including Key Tag values in a new EDNS(0) option
 	code.  It was modeled after <xref target="RFC6975"/>, which
 	provides DNSSEC algorithm signaling.
       </t>
       <t>
-	The authors received feedback from Working Group participants
+	The authors received feedback from dnsop Working Group participants
 	that it might be better to convey Key Tags in QNAME of a
 	separate DNS query, rather than as an EDNS(0) option.  Mostly
 	this is because forwarding (e.g. from stub to recursive to
