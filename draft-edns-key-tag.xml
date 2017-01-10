@@ -549,8 +549,6 @@ support of the feature to a stub.
 	covered by wildcard. The zone operator might want
 	to add specific key tag records to its zone, perhaps with specific TTLs,
 	to affect the frequency of key tag queries from clients.
-	[ Note RFC1035 says NULL RRs are not allowed in master files,
-	but I believe that to be incorrect ]
       </t>
       <section title="Interaction With Aggressive Negative Caching">
         <t>
