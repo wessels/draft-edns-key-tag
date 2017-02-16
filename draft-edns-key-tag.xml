@@ -135,8 +135,8 @@ An alternate method (rfc include) is described in the references. -->
 	anchor and proceeding down to a particular node in the DNS.
 	This document specifies two different ways for validating
 	resolvers to signal to a server which keys are referenced in
-	their chain-of-trust (see <xref target="Evolution"/>
-	for the rationale).  The data from such signaling allow zone administrators
+	their chain-of-trust.
+	The data from such signaling allow zone administrators
 	to monitor the progress of rollovers in a DNSSEC-signed zone.
       </t>
 
